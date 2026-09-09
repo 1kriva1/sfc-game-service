@@ -1,0 +1,1659 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SFC.Game.Api</name>
+    </assembly>
+    <members>
+        <member name="M:SFC.Game.Api.Controllers.GameController.CreateGameAsync(SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameRequest)">
+            <summary>
+            Create new game.
+            </summary>
+            <param name="request">Create game request.</param>
+            <returns>An ActionResult of type CreateGameResponse</returns>
+            <response code="201">Returns **new** created game.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameController.UpdateGameAsync(System.Int64,SFC.Game.Api.Infrastructure.Models.Game.General.Update.UpdateGameRequest)">
+            <summary>
+            Update existing game.
+            </summary>
+            <param name="id">Game unique identifier.</param>
+            <param name="request">Update game request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game updated **successfully**.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameController.GetGameAsync(System.Int64)">
+            <summary>
+            Return game model by unique identifier.
+            </summary>
+            <param name="id">Game unique identifier.</param>
+            <returns>An ActionResult of type GetGameResponse</returns>
+            <response code="200">Returns game model.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="404">Returns when game **not found** by unique identifier.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameController.GetGamesAsync(SFC.Game.Api.Infrastructure.Models.Game.General.Find.GetGamesRequest)">
+            <summary>
+            Return list of games
+            </summary>
+            <param name="request">Get games request.</param>
+            <returns>An ActionResult of type GetGamesResponse</returns>
+            <response code="200">Returns list of games with pagination header.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameDataController.GetAllAsync">
+            <summary>
+            Return all available game data types.
+            </summary>
+            <returns>An ActionResult of type GetAllGameDataResponse</returns>
+            <response code="200">Returns all available **data types**.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+        </member>
+        <member name="T:SFC.Game.Api.Controllers.GamePlayerController">
+            <summary>
+            Game players controller
+            </summary>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GamePlayerController.GetGamePlayersAsync(System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Player.Find.GetGamePlayersRequest)">
+            <summary>
+            Return list of game players.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="request">Get game players request.</param>
+            <returns>An ActionResult of type GetGamePlayersResponse</returns>
+            <response code="200">Returns list of game players with pagination header.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="T:SFC.Game.Api.Controllers.GameTeamController">
+            <summary>
+            Game teams controller
+            </summary>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.CreateGameTeamAsync(System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamRequest)">
+            <summary>
+            Create new game team.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="request">Create game team request.</param>
+            <returns>An ActionResult of type CreateGamTeameResponse</returns>
+            <response code="201">Returns **new** created game team.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.UpdateGameTeamAsync(System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest)">
+            <summary>
+            Update game team.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="request">Update game team request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game team **successfully** updated.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+            <response code="409">Returns when **flow validation** errors.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.UpdatesGameTeamAsync(System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamRequest)">
+            <summary>
+            Updates game team.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="request">Update game teams request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game teams **successfully** updated.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+            <response code="409">Returns when **flow validation** errors.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.GetGameTeamAsync(System.Int64,System.Int64)">
+            <summary>
+            Return game team model by unique identifier.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Game team unique identifier.</param>
+            <returns>An ActionResult of type GetGameTeamResponse</returns>
+            <response code="200">Returns game team model.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="404">Returns when game team **not found** by unique identifier.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.GetsGameTeamAsync(System.Int64)">
+            <summary>
+            Return game team models by game Id.
+            </summary>
+            <param name="id">Game unique identifier.</param>
+            <returns>An ActionResult of type GetsGameTeamResponse</returns>
+            <response code="200">Returns game team models.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamController.GetGameTeamsAsync(System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.GetGameTeamsRequest)">
+            <summary>
+            Return list of game teams.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="request">Get game teams request.</param>
+            <returns>An ActionResult of type GetGameTeamsResponse</returns>
+            <response code="200">Returns list of game teams with pagination header.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="T:SFC.Game.Api.Controllers.GameTeamPlayerController">
+            <summary>
+            Game teams controller
+            </summary>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.CreateGameTeamAsync(System.Int64,System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerRequest)">
+            <summary>
+            Create new game team player.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="playerId">Player Id.</param>
+            <param name="request">Create game team player request.</param>
+            <returns>An ActionResult of type CreateGamTeamPlayerResponse</returns>
+            <response code="201">Returns **new** created game team player.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.CreatesGameTeamAsync(System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest)">
+            <summary>
+            Creates new game team players.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="request">Create game team player request.</param>
+            <returns>An ActionResult of type CreatesGamTeamPlayerResponse</returns>
+            <response code="201">Returns **new** created game team player.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.UpdateGameTeamPlayerAsync(System.Int64,System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest)">
+            <summary>
+            Update game team player.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="playerId">Player Id.</param>
+            <param name="request">Update game team player request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game team player **successfully** updated.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+            <response code="409">Returns when **flow validation** errors.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.UpdatesGameTeamPlayerAsync(System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerRequest)">
+            <summary>
+            Updates game team player.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="request">Update game team players request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game team players **successfully** updated.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+            <response code="409">Returns when **flow validation** errors.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.GetGameTeamPlayerAsync(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Return game team player model by unique identifier.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="playerId">Player Id.</param>
+            <returns>An ActionResult of type GetGameTeamResponse</returns>
+            <response code="200">Returns game team model.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="404">Returns when game team **not found** by unique identifier.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.GetGameTeamPlayersAsync(System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.GetGameTeamPlayersRequest)">
+            <summary>
+            Return list of game team players.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="request">Get game team players request.</param>
+            <returns>An ActionResult of type GetGameTeamsResponse</returns>
+            <response code="200">Returns list of game team players with pagination header.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Base.BaseErrorResponse">
+            <summary>
+            **Base** response model with **errors**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BaseErrorResponse.Errors">
+            <summary>
+            Response result errors in key/value representation.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Base.BaseListResponse`1">
+            <summary>
+            **Base** response model with **list** of items.
+            </summary>
+            <typeparam name="T">Any type of model.</typeparam>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BaseListResponse`1.Items">
+            <summary>
+            **List** of items.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Base.BasePaginationRequest`1">
+            <summary>
+            **Base** pagination request.
+            </summary>
+            <typeparam name="T">Any type of filter model.</typeparam>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BasePaginationRequest`1.Pagination">
+            <summary>
+            Pagination model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BasePaginationRequest`1.Sorting">
+            <summary>
+            Sorting model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BasePaginationRequest`1.Filter">
+            <summary>
+            Generic filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Base.BaseResponse">
+            <summary>
+            **Base** response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BaseResponse.Success">
+            <summary>
+            Determined if response has **success** result.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Base.BaseResponse.Message">
+            <summary>
+            Describe response **result**.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Common.RangeLimitModel`1">
+            <summary>
+            **Generic** range limit model.
+            </summary>
+            <typeparam name="T">Any type that can be **compared**.</typeparam>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Common.RangeLimitModel`1.From">
+            <summary>
+            Range **from**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Common.RangeLimitModel`1.To">
+            <summary>
+            Range **to**.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Common.SortingModel">
+            <summary>
+            **Sorting** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Common.SortingModel.Name">
+            <summary>
+            **Name of property** by which sorting will be performed.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Common.SortingModel.Direction">
+            <summary>
+            Sorting **direction** (ascending or descending).
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Data.Common.DataValueModel">
+            <summary>
+            Data value.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.Common.DataValueModel.Id">
+            <summary>
+            Unique identificator of data type.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.Common.DataValueModel.Title">
+            <summary>
+            Describe data type.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Data.GetAll.GetAllGameDataResponse">
+            <summary>
+            Contain all available game **data types**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.GetAll.GetAllGameDataResponse.GameStatuses">
+            <summary>
+            Game statuses.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.GetAll.GetAllGameDataResponse.GameTeamStatuses">
+            <summary>
+            Game team statuses.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.GetAll.GetAllGameDataResponse.GamePlayerStatuses">
+            <summary>
+            Game player statuses.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Data.GetAll.GetAllGameDataResponse.GameTeamIndexes">
+            <summary>
+            Game team indexes.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.BaseGameModel">
+            <summary>
+            **Base** game model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.BaseGameModel.Profile">
+            <summary>
+            Game's profile model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameAvailabilityModel">
+            <summary>
+            Game's **availability** model (when game is available to play).
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameAvailabilityModel.Date">
+            <summary>
+            Date.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameFinancialProfileModel">
+            <summary>
+            Game's **financial** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameFinancialProfileModel.FreeGame">
+            <summary>
+            Game play only on free field and without any extra expansions.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameFinancialProfileModel.PayAmount">
+            <summary>
+            How many need to pay for game.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel">
+            <summary>
+            Game's **general** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel.Description">
+            <summary>
+            A few words about game.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel.Location">
+            <summary>
+            Location of main game field.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel.Availability">
+            <summary>
+            Game's **availability** to play.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameGeneralProfileModel.Tags">
+            <summary>
+            Game's **tags**.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameInventaryProfileModel">
+            <summary>
+            Game's **inventary** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameInventaryProfileModel.ShirtsRequired">
+            <summary>
+            Is it required to have shirts for play.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameInventaryProfileModel.ShirtsCount">
+            <summary>
+            How many shirts required for game.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameModel">
+            <summary>
+            Game model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameModel.Status">
+            <summary>
+            Game status.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameProfileModel">
+            <summary>
+            Game **profile** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameProfileModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameProfileModel.Financial">
+            <summary>
+            Financial profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Common.GameProfileModel.Inventary">
+            <summary>
+            Inventary profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameModel">
+            <summary>
+            **Create** game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameRequest">
+            <summary>
+            **Create** Game request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameRequest.Game">
+            <summary>
+            Game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameResponse">
+            <summary>
+            **Create** game response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Create.CreateGameResponse.Game">
+            <summary>
+            Game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesAvailabilityLimitModel">
+            <summary>
+            Get games **availability filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesAvailabilityLimitModel.Date">
+            <summary>
+            Date of game play.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFilterModel">
+            <summary>
+            Get games filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFilterModel.Statuses">
+            <summary>
+            Statuses of game.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFilterModel.Profile">
+            <summary>
+            Profile filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFinancialProfileFilterModel">
+            <summary>
+            Get games **financial profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFinancialProfileFilterModel.FreeGame">
+            <summary>
+            Describe if game is free to play.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesFinancialProfileFilterModel.PayAmount">
+            <summary>
+            How many need to pay for game.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesGeneralProfileFilterModel">
+            <summary>
+            Get teams **general profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesGeneralProfileFilterModel.Name">
+            <summary>
+            Name of game.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesGeneralProfileFilterModel.Tags">
+            <summary>
+            Game's **tags**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesGeneralProfileFilterModel.Availability">
+            <summary>
+            Game's **availability** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesGeneralProfileFilterModel.Location">
+            <summary>
+            **Location** where game will play.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesInventaryProfileFilterModel">
+            <summary>
+            Get games **inventary profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesInventaryProfileFilterModel.ShirtsRequired">
+            <summary>
+            Game's **shirts required**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesInventaryProfileFilterModel.ShirtsCount">
+            <summary>
+            How many shirts are required for game.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesProfileFilterModel">
+            <summary>
+            Get games **profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesProfileFilterModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesProfileFilterModel.Financial">
+            <summary>
+            Financial profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Find.Filters.GetGamesProfileFilterModel.Inventary">
+            <summary>
+            Inventary profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.GetGamesRequest">
+            <summary>
+            **Get** games request.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Find.GetGamesResponse">
+            <summary>
+            **Get** games response.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Get.GetGameResponse">
+            <summary>
+            **Get** game response.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Get.GetGameResponse.Game">
+            <summary>
+            Game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Update.UpdateGameModel">
+            <summary>
+            **Update** game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.General.Update.UpdateGameRequest">
+            <summary>
+            **Update** game request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.General.Update.UpdateGameRequest.Game">
+            <summary>
+            Game model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel">
+            <summary>
+            Game Player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.Status">
+            <summary>
+            Game Player status.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.Player">
+            <summary>
+            Game Player related to this player.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.GameTeam">
+            <summary>
+            Game Team related to this game player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Player.Find.Filters.GetGamePlayersGamePlayerFilterModel">
+            <summary>
+            Get game players for game player filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Find.Filters.GetGamePlayersGamePlayerFilterModel.Statuses">
+            <summary>
+            Statuses of game player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Player.Find.GetGamePlayersRequest">
+            <summary>
+            **Get** game players request.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Find.Filters.GetGamePlayersFilterModel">
+            <summary>
+            Get game players filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Find.Filters.GetGamePlayersFilterModel.GamePlayer">
+            <summary>
+            Game Team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Find.Filters.GetGamePlayersFilterModel.Player">
+            <summary>
+            Player filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Find.GetGamePlayersResponse">
+            <summary>
+            **Get** game players response.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel">
+            <summary>
+            Game Team model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel.Status">
+            <summary>
+            Game Team status.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel.Index">
+            <summary>
+            Game Team index.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel.Team">
+            <summary>
+            Game Team related to this team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel.Players">
+            <summary>
+            Game Team related to this team.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamModel">
+            <summary>
+            **Create** game team model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamRequest">
+            <summary>
+            **Create** Game Team request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamRequest.GameTeam">
+            <summary>
+            Game Team model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamResponse">
+            <summary>
+            **Create** game team response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Create.CreateGameTeamResponse.GameTeam">
+            <summary>
+            Game team model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.Filters.GetGameTeamsFilterModel">
+            <summary>
+            Get team players filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.Filters.GetGameTeamsFilterModel.GameTeam">
+            <summary>
+            Game Team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.Filters.GetGameTeamsFilterModel.Team">
+            <summary>
+            Team filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.Filters.GetGameTeamsGameTeamFilterModel">
+            <summary>
+            Get game teams for game team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.Filters.GetGameTeamsGameTeamFilterModel.Statuses">
+            <summary>
+            Statuses of game team.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.GetGameTeamsRequest">
+            <summary>
+            **Get** game teams request.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find.GetGameTeamsResponse">
+            <summary>
+            **Get** game teams response.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Gets.GetsGameTeamResponse">
+            <summary>
+            **Get** all game teams response.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Gets.GetsGameTeamResponse.GameTeams">
+            <summary>
+            Game Team models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse">
+            <summary>
+            **Get** game team response.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse.GameTeam">
+            <summary>
+            Game team model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamModel">
+            <summary>
+            **Updates** game team models.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamModel.Status">
+            <summary>
+            Status of game team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamModel.Index">
+            <summary>
+            Index of game team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamModel.Team">
+            <summary>
+            Team unique identifier.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamRequest">
+            <summary>
+            **Updates** game team request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Updates.UpdatesGameTeamRequest.GameTeams">
+            <summary>
+            Game team models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel">
+            <summary>
+            **Update** game team model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Status">
+            <summary>
+            Status of game team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Index">
+            <summary>
+            Index of game team.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest">
+            <summary>
+            **Update** game team request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest.GameTeam">
+            <summary>
+            Game team model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel">
+            <summary>
+            Game Team Player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.Status">
+            <summary>
+            Game Team Player status.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.Player">
+            <summary>
+            Game Team Player related to this player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerModel">
+            <summary>
+            **Creates** game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest">
+            <summary>
+            **Creates** Game Team Player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest.GameTeamPlayers">
+            <summary>
+            Game Team Player models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse">
+            <summary>
+            **Creates** game team player response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse.GameTeamPlayers">
+            <summary>
+            Game team player models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerModel">
+            <summary>
+            **Create** game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerRequest">
+            <summary>
+            **Create** Game Team Player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerRequest.GameTeamPlayer">
+            <summary>
+            Game Team Player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerResponse">
+            <summary>
+            **Create** game team player response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerResponse.GameTeamPlayer">
+            <summary>
+            Game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersFilterModel">
+            <summary>
+            Get game team players filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersFilterModel.GameTeamPlayer">
+            <summary>
+            Game Team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersFilterModel.Player">
+            <summary>
+            Player filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersGameTeamPlayerFilterModel">
+            <summary>
+            Get game team players for game team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersGameTeamPlayerFilterModel.Statuses">
+            <summary>
+            Statuses of game team player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.GetGameTeamPlayersRequest">
+            <summary>
+            **Get** game team players request.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.GetGameTeamPlayersResponse">
+            <summary>
+            **Get** game team players response.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Get.GetGameTeamPlayerResponse">
+            <summary>
+            **Get** game team player response.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Get.GetGameTeamPlayerResponse.GameTeamPlayer">
+            <summary>
+            Game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerModel">
+            <summary>
+            **Updates** game team player models.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerModel.Status">
+            <summary>
+            Status of game team player.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerModel.Player">
+            <summary>
+            Player unique identifier.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerRequest">
+            <summary>
+            **Updates** game team player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerRequest.GameTeamPlayers">
+            <summary>
+            Game team player models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel">
+            <summary>
+            **Update** game team player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel.Status">
+            <summary>
+            Status of game team player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest">
+            <summary>
+            **Update** game team player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest.GameTeamPlayer">
+            <summary>
+            Game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel">
+            <summary>
+            **Pagination** links model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel.FirstPage">
+            <summary>
+            Link to first page.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel.LastPage">
+            <summary>
+            Link to last page.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel.NextPage">
+            <summary>
+            Link to next page.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel.PreviousPage">
+            <summary>
+            Link to previous page.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel">
+            <summary>
+            **Pagination** metadata model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.CurrentPage">
+            <summary>
+            **Current** page.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.TotalPages">
+            <summary>
+            Total **pages** count.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.PageSize">
+            <summary>
+            Page **size**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.TotalCount">
+            <summary>
+            Total **items** count.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.HasPreviousPage">
+            <summary>
+            Describe if **previous** page **exist** for defined filters and page size.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.HasNextPage">
+            <summary>
+            Describe if **next** page **exist** for defined filters and page size.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PageMetadataModel.Links">
+            <summary>
+            Links model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Pagination.PaginationModel">
+            <summary>
+            **Pagination** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PaginationModel.Page">
+            <summary>
+            Requested **page**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Pagination.PaginationModel.Size">
+            <summary>
+            Requested page **size**.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerAvailabilityLimitFilterModel">
+            <summary>
+            Get players **availability filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerAvailabilityLimitFilterModel.Days">
+            <summary>
+            Day of week.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel">
+            <summary>
+            Get players filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel.Profile">
+            <summary>
+            Profile filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel.Stats">
+            <summary>
+            Stats filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel">
+            <summary>
+            Get players **football profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.Height">
+            <summary>
+            Height.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.Weight">
+            <summary>
+            Weight.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.Positions">
+            <summary>
+            List of **positions** on field.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.WorkingFoot">
+            <summary>
+            What **foot** player prefer to use.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.GameStyles">
+            <summary>
+            **Style** of play.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.Skill">
+            <summary>
+            **Dribbling** skill value.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFootballProfileFilterModel.PhysicalCondition">
+            <summary>
+            Physical condition value.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel">
+            <summary>
+            Get players **general profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.Name">
+            <summary>
+            Name (first and last).
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.City">
+            <summary>
+            **City** where player will play football.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.Tags">
+            <summary>
+            Player's **tags**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.Years">
+            <summary>
+            Range limit for players age.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.Availability">
+            <summary>
+            Player's **availability** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.FreePlay">
+            <summary>
+            Describe if player can **pay** for football matches.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerGeneralProfileFilterModel.HasPhoto">
+            <summary>
+            Describe if player must have uploaded photo.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerProfileFilterModel">
+            <summary>
+            Get players **profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerProfileFilterModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerProfileFilterModel.Football">
+            <summary>
+            Football profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsBySkillRangeLimitFilterModel">
+            <summary>
+            Range limit by **stat skill**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsBySkillRangeLimitFilterModel.Skill">
+            <summary>
+            Stat skill unique identifier.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel">
+            <summary>
+            Get players **stats filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel.Total">
+            <summary>
+            Filter by total rating.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel.Physical">
+            <summary>
+            Filter by physical stats rating.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel.Mental">
+            <summary>
+            Filter by mental stats rating.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel.Skill">
+            <summary>
+            Filter by skill stats rating.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerStatsFilterModel.Raiting">
+            <summary>
+            Filter by rating.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerAvailabilityModel">
+            <summary>
+            Player's **availability** model (when player is available to play).
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerAvailabilityModel.Days">
+            <summary>
+            Days of week.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel">
+            <summary>
+            Player's **football** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.Height">
+            <summary>
+            Height.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.Weight">
+            <summary>
+            Weight.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.Position">
+            <summary>
+            Position on field.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.WorkingFoot">
+            <summary>
+            Describe what **foot** player prefer to use.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.GameStyle">
+            <summary>
+            **Style** of play.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.Skill">
+            <summary>
+            **Dribbling** skill value.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerFootballProfileModel.PhysicalCondition">
+            <summary>
+            Physical condition value.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel">
+            <summary>
+            Player's **general** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.FirstName">
+            <summary>
+            First name.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.LastName">
+            <summary>
+            Last name.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.Photo">
+            <summary>
+            Photo/avatar.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.Birthday">
+            <summary>
+            Date of birth.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.City">
+            <summary>
+            **City** where player will play football.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.FreePlay">
+            <summary>
+             Describe if player can **pay** for football matches.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.Tags">
+            <summary>
+            Player's **tags**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerGeneralProfileModel.Availability">
+            <summary>
+            Player's **availability** model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerModel">
+            <summary>
+            Player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerModel.Profile">
+            <summary>
+            Player's profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerModel.Stats">
+            <summary>
+            Player's stats model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerProfileModel">
+            <summary>
+            Player **profile** model for get players request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerProfileModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerProfileModel.Football">
+            <summary>
+            Football profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerStatsModel">
+            <summary>
+            Player stats model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerStatsModel.Values">
+            <summary>
+            Stats.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Player.PlayerStatValueModel">
+            <summary>
+            Player stat value model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerStatValueModel.Type">
+            <summary>
+            Type of stat
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.PlayerStatValueModel.Value">
+            <summary>
+            Stat value.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamAvailabilityLimitModel">
+            <summary>
+            Team **availability filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamAvailabilityLimitModel.Days">
+            <summary>
+            Days of week.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamFilterModel">
+            <summary>
+            Team filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamFilterModel.Statuses">
+            <summary>
+            Statuses of team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamFilterModel.Profile">
+            <summary>
+            Profile filter model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamFinancialProfileFilterModel">
+            <summary>
+            Team **financial profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamFinancialProfileFilterModel.FreePlay">
+            <summary>
+            Describe if team can **pay** for football matches and other stuff.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel">
+            <summary>
+            Team **general profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.Name">
+            <summary>
+            Name of team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.City">
+            <summary>
+            **City** where team will play football.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.Tags">
+            <summary>
+            Team's **tags**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.Availability">
+            <summary>
+            Team's **availability** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.Location">
+            <summary>
+            **Location** where team mostly will play football.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamGeneralProfileFilterModel.HasLogo">
+            <summary>
+            Describe if team must have uploaded logo.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamInventaryProfileFilterModel">
+            <summary>
+            Team **inventary profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamInventaryProfileFilterModel.Shirts">
+            <summary>
+            Team's **shirts**.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamProfileFilterModel">
+            <summary>
+            Team **profile filter** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamProfileFilterModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamProfileFilterModel.Financial">
+            <summary>
+            Financial profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.Filters.TeamProfileFilterModel.Inventary">
+            <summary>
+            Inventary profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamAvailabilityModel">
+            <summary>
+            Team's **availability** model (when team is available to play).
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamAvailabilityModel.Day">
+            <summary>
+            Day of week.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamFinancialProfileModel">
+            <summary>
+            Team's **financial** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamFinancialProfileModel.FreePlay">
+            <summary>
+            Team play only on free field and without any extra expansions.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel">
+            <summary>
+            Team's **general** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.City">
+            <summary>
+            **City** where team will play football.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Location">
+            <summary>
+            Location of main team field.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Description">
+            <summary>
+            A few words about team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Logo">
+            <summary>
+            Logo/Photo/Avatar.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Tags">
+            <summary>
+            Team's **tags**.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamGeneralProfileModel.Availability">
+            <summary>
+            Team's **availabilities** to play (at what day and time can play).
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamInventaryProfileModel">
+            <summary>
+            Team's **inventary** profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamInventaryProfileModel.Shirts">
+            <summary>
+            In what shirts team can play (multiple value).
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamInventaryProfileModel.HasManiches">
+            <summary>
+            Define if team has maniches.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamModel">
+            <summary>
+            Team model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamModel.Status">
+            <summary>
+            Team status.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamModel.Profile">
+            <summary>
+            Team's profile model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamModel.Players">
+            <summary>
+            Team's players.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.General.TeamProfileModel">
+            <summary>
+            Team **profile** model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamProfileModel.General">
+            <summary>
+            General profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamProfileModel.Financial">
+            <summary>
+            Financial profile.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.General.TeamProfileModel.Inventary">
+            <summary>
+            Inventary profile.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Team.Player.TeamPlayerModel">
+            <summary>
+            Team player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.Player.TeamPlayerModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.Player.TeamPlayerModel.Status">
+            <summary>
+            Team player status.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Team.Player.TeamPlayerModel.Player">
+            <summary>
+            Team player related to this player.
+            </summary>
+        </member>
+    </members>
+</doc>

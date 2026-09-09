@@ -1,0 +1,141 @@
+name: sfc-game
+include:
+   - compose.Infrastructure.yaml
+x-root-secret-volume: &root_secret_volume
+  type: bind
+  source: ${USERPROFILE}/AppData/Roaming/Microsoft/UserSecrets
+  target: /root/.microsoft/usersecrets
+x-app-secret-volume: &app_secret_volume
+  type: bind
+  source: ${USERPROFILE}/AppData/Roaming/Microsoft/UserSecrets
+  target: /home/app/.microsoft/usersecrets
+x-build-args: &build_args
+  args:
+    BUILD_CONFIGURATION: Debug
+services:
+  sfc-game:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-game
+    image: kryvorukandrii/sfc.game:development
+    build:
+      dockerfile: src/API/SFC.Game.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - environments/api/api.Development.env
+    volumes:      
+      - *root_secret_volume
+      - *app_secret_volume
+      - type: bind
+        source: ${PWD}
+        target: /app    
+  sfc-data:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-data
+    image: kryvorukandrii/sfc.data:development
+    build:
+      dockerfile: ../sfc-data-service/src/API/SFC.Data.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-data-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 660s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      -  type: bind
+         source: ../sfc-data-service
+         target: /app
+  sfc-identity:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-identity
+    image: kryvorukandrii/sfc.identity:development
+    build:
+      dockerfile: ../sfc-identity-service/src/API/SFC.Identity.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-identity-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 660s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      - type: bind
+        source: ../sfc-identity-service
+        target: /app
+      - type: volume
+        target: /app/src/Client/SFC.Identity.Client/node_modules
+  sfc-player:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-player
+    image: kryvorukandrii/sfc.player:development
+    build:
+      dockerfile: ../sfc-player-service/src/API/SFC.Player.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-player-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 660s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      -  type: bind
+         source: ../sfc-player-service
+         target: /app
+  sfc-team:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-team
+    image: kryvorukandrii/sfc.team:development
+    build:
+      dockerfile: ../sfc-team-service/src/API/SFC.Team.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-team-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 760s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      -  type: bind
+         source: ../sfc-team-service
+         target: /app
+  sfc-invite:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-invite
+    image: kryvorukandrii/sfc.invite:development
+    build:
+      dockerfile: ../sfc-invite-service/src/API/SFC.Invite.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-invite-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 760s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      -  type: bind
+         source: ../sfc-invite-service
+         target: /app
+  sfc-request:
+    extends:
+      file: compose.Common.yaml
+      service: sfc-request
+    image: kryvorukandrii/sfc.request:development
+    build:
+      dockerfile: ../sfc-request-service/src/API/SFC.Request.Api/Dockerfile.Development
+      <<: *build_args
+    env_file:
+      - ../sfc-request-service/environments/api/api.Development.env
+    healthcheck:
+      start_period: 760s
+    volumes:
+      - *root_secret_volume
+      - *app_secret_volume
+      -  type: bind
+         source: ../sfc-request-service
+         target: /app

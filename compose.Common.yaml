@@ -1,0 +1,308 @@
+﻿name: sfc-game
+include:
+   - compose.Infrastructure.yaml
+x-root-certificate-volume: &root-certificate-volume
+  type: bind
+  source: ../../Configurations/certificates/root/sfcRootCA.crt
+  target: /usr/local/share/ca-certificates/sfcRootCA.crt
+x-common-deploy: &common_deploy
+  deploy:
+    replicas: 1
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+services:
+  sfc-game:
+    container_name: sfc-game
+    build:
+      context: .
+      args:
+        HTTP_PORT: 7965
+        HTTPS_PORT: 7966
+    ports:
+      - "7966:7966"
+      - "7965:7965"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7965/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-game/sfc-game.pfx
+        target: /https/sfc-game.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+      sfc-data:
+        condition: service_healthy
+        restart: true
+      sfc-identity:
+        condition: service_healthy
+        restart: true
+      sfc-player:
+        condition: service_healthy
+        restart: true
+      sfc-team:
+        condition: service_healthy
+        restart: true
+      sfc-invite:
+        condition: service_healthy
+        restart: true
+      sfc-request:
+        condition: service_healthy
+        restart: true
+  sfc-data:
+    container_name: sfc-data 
+    build:
+      context: ../sfc-data-service
+      args:
+        HTTP_PORT: 7465
+        HTTPS_PORT: 7466
+    ports:
+      - "7466:7466"
+      - "7465:7465"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7465/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-data/sfc-data.pfx
+        target: /https/sfc-data.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+  sfc-identity:
+    container_name: sfc-identity 
+    build:
+      context: ../sfc-identity-service
+      args:
+        HTTP_PORT: 7265
+        HTTPS_PORT: 7266
+    ports:
+      - "7266:7266"
+      - "7265:7265"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7265/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-identity/sfc-identity.pfx
+        target: /https/sfc-identity.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+  sfc-player:
+    container_name: sfc-player 
+    build:
+      context: ../sfc-player-service
+      args:
+        HTTP_PORT: 7365
+        HTTPS_PORT: 7366
+    ports:
+      - "7366:7366"
+      - "7365:7365"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7365/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-player/sfc-player.pfx
+        target: /https/sfc-player.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+      sfc-data:
+        condition: service_healthy
+        restart: true
+      sfc-identity:
+        condition: service_healthy
+        restart: true
+  sfc-team:
+    container_name: sfc-team 
+    build:
+      context: ../sfc-team-service
+      args:
+        HTTP_PORT: 7565
+        HTTPS_PORT: 7566
+    ports:
+      - "7566:7566"
+      - "7565:7565"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7565/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-team/sfc-team.pfx
+        target: /https/sfc-team.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+      sfc-data:
+        condition: service_healthy
+        restart: true
+      sfc-identity:
+        condition: service_healthy
+        restart: true
+      sfc-player:
+        condition: service_healthy
+        restart: true
+  sfc-invite:
+    container_name: sfc-invite 
+    build:
+      context: ../sfc-invite-service
+      args:
+        HTTP_PORT: 7665
+        HTTPS_PORT: 7666
+    ports:
+      - "7666:7666"
+      - "7665:7665"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7665/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-invite/sfc-invite.pfx
+        target: /https/sfc-invite.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+      sfc-data:
+        condition: service_healthy
+        restart: true
+      sfc-identity:
+        condition: service_healthy
+        restart: true
+      sfc-player:
+        condition: service_healthy
+        restart: true
+      sfc-team:
+        condition: service_healthy
+        restart: true
+  sfc-request:
+    container_name: sfc-request 
+    build:
+      context: ../sfc-request-service
+      args:
+        HTTP_PORT: 7765
+        HTTPS_PORT: 7766
+    ports:
+      - "7766:7766"
+      - "7765:7765"
+    healthcheck:
+          test: ["CMD", "curl", "--fail", "http://localhost:7765/health"] 
+          interval: 20s
+          timeout: 10s
+          retries: 3
+          start_period: 60s
+    volumes:
+      - *root-certificate-volume
+      - type: bind
+        source: ../../Configurations/certificates/sfc-request/sfc-request.pfx
+        target: /https/sfc-request.pfx
+    networks: 
+      - sfc-network
+    <<: *common_deploy
+    depends_on:
+      sfc-mssql:
+        condition: service_healthy
+        restart: true
+      sfc-redis:
+        condition: service_healthy
+        restart: true
+      sfc-rabbitmq:
+        condition: service_healthy
+        restart: true
+      sfc-data:
+        condition: service_healthy
+        restart: true
+      sfc-identity:
+        condition: service_healthy
+        restart: true
+      sfc-player:
+        condition: service_healthy
+        restart: true
+      sfc-team:
+        condition: service_healthy
+        restart: true

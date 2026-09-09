@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "Models/Game/General/game_profile.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Models.Game.General";
+
+message Game
+{
+    int64 id = 1;
+    string user_id = 2;
+    int32 status_id = 3;
+    GameProfile profile = 4;
+}

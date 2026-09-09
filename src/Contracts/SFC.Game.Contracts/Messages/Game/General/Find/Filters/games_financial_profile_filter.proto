@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "google/protobuf/wrappers.proto";
+import "Models/Common/range_limit.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Messages.Game.General.Find.Filters";
+
+message GamesFinancialProfileFilter
+{
+    google.protobuf.BoolValue free_game = 1;
+    RangeLimit pay_amount = 2;
+}

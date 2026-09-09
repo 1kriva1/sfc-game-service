@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+option csharp_namespace = "SFC.Game.Contracts.Models.Game.Team.General";
+
+message GameTeam
+{
+    int64 id = 1;
+    string user_id = 2;
+    int64 game_id = 3;
+    int64 team_id = 4;
+    int32 status_id = 5;
+    int32 index = 6;
+}

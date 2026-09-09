@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sfc-game
+  namespace: sfc
+  labels:
+    app.kubernetes.io/name: sfc-game
+    app.kubernetes.io/component: network
+    app.kubernetes.io/part-of: sfc
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    owner: "krivorukandrey@gmail.com"
+    purpose: "Internal ClusterIP service for Game component in SFC application"
+spec:
+  selector:
+    app.kubernetes.io/name: sfc-game
+  type: ClusterIP
+  ports:
+    - name: sfc-game-cluster-service-http-port
+      protocol: TCP
+      port: 7965
+      targetPort: 7965
+    - name: sfc-game-cluster-service-https-port
+      protocol: TCP
+      port: 7966
+      targetPort: 7966
+  internalTrafficPolicy: Cluster

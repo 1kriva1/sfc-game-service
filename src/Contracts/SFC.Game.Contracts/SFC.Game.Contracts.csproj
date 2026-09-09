@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>SFC.Game.Contracts</PackageId>
+    <Version>0.0.2</Version>
+    <Authors>Andrii Kryvoruk</Authors>
+    <Company>SFC</Company>
+    <Product>SFC</Product>
+    <PackageTags>Street Football Club;SFC;Game;Contracts</PackageTags>
+    <Description>
+      Contracts from Game service for SFC project
+    </Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.29.3" />
+    <PackageReference Include="Grpc.Core.Api" Version="2.67.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.69.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Enums\sorting_direction.proto" />
+    <Protobuf Include="Headers\auditable_header.proto" />
+    <Protobuf Include="Headers\pagination_header.proto" />
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_availability_limit.proto" />    
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_filter.proto" />    
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_financial_profile_filter.proto" />    
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_general_profile_filter.proto" />    
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_inventary_profile_filter.proto" />    
+    <Protobuf Include="Messages\Game\General\Find\Filters\games_profile_filter.proto" />
+    <Protobuf Include="Messages\Game\General\Find\get_games_request.proto" />
+    <Protobuf Include="Messages\Game\General\Find\get_games_response.proto" />
+    <Protobuf Include="Messages\Game\General\Get\get_game_request.proto" />
+    <Protobuf Include="Messages\Game\General\Get\get_game_response.proto" />
+    <Protobuf Include="Messages\Game\Player\Find\Filters\game_players_filter.proto" />
+    <Protobuf Include="Messages\Game\Player\Find\Filters\game_player_filter.proto" />
+    <Protobuf Include="Messages\Game\Player\Find\get_game_players_request.proto" />
+    <Protobuf Include="Messages\Game\Player\Find\get_game_players_response.proto" />
+    <Protobuf Include="Messages\Game\Player\Get\get_game_player_request.proto" />
+    <Protobuf Include="Messages\Game\Player\Get\get_game_player_response.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Find\Filters\game_teams_filter.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Find\Filters\game_team_filter.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Find\get_game_teams_request.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Find\get_game_teams_response.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Get\get_game_team_request.proto" />
+    <Protobuf Include="Messages\Game\Team\General\Get\get_game_team_response.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Find\Filters\game_team_players_filter.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Find\Filters\game_team_player_filter.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Find\get_game_team_players_request.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Find\get_game_team_players_response.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Get\get_game_team_player_request.proto" />
+    <Protobuf Include="Messages\Game\Team\Player\Get\get_game_team_player_response.proto" />
+    <Protobuf Include="Models\Common\pagination.proto" />
+    <Protobuf Include="Models\Common\range_limit.proto" />
+    <Protobuf Include="Models\Common\sorting.proto" />
+    <Protobuf Include="Models\Game\General\game.proto" />
+    <Protobuf Include="Models\Game\General\game_availability.proto" />
+    <Protobuf Include="Models\Game\General\game_financial_profile.proto" />
+    <Protobuf Include="Models\Game\General\game_general_profile.proto" />
+    <Protobuf Include="Models\Game\General\game_inventary_profile.proto" />
+    <Protobuf Include="Models\Game\General\game_profile.proto" />
+    <Protobuf Include="Models\Game\Player\game_player.proto" />
+    <Protobuf Include="Models\Game\Team\General\game_team.proto" />
+    <Protobuf Include="Models\Game\Team\Player\game_team_player.proto" />
+    <Protobuf Include="Services\game_service.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Models\Game\Data\data_value.proto" />
+    <Protobuf Include="Messages\Game\Data\GetAll\get_all_game_data_request.proto" />
+    <Protobuf Include="Messages\Game\Data\GetAll\get_all_game_data_response.proto" />
+    <Protobuf Include="Services\game_data_service.proto" />
+    <Protobuf Include="Services\game_player_service.proto" />
+    <Protobuf Include="Services\game_team_player_service.proto" />
+    <Protobuf Include="Services\game_team_service.proto" />
+  </ItemGroup>
+
+</Project>

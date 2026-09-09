@@ -1,0 +1,19 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sfc-game-pod-disruption-budget
+  namespace: sfc
+  labels:
+    app.kubernetes.io/name: sfc-game
+    app.kubernetes.io/component: policy
+    app.kubernetes.io/part-of: sfc
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    owner: "krivorukandrey@gmail.com"
+    purpose: "Pod Disruption Budget for Game component in SFC application"
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sfc-game

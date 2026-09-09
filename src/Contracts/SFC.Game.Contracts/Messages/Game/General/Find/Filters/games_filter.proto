@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "Messages/Game/General/Find/Filters/games_profile_filter.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Messages.Game.General.Find.Filters";
+
+message GamesFilter
+{
+    repeated int32 statuses = 1;
+    GamesProfileFilter profile = 2;
+}

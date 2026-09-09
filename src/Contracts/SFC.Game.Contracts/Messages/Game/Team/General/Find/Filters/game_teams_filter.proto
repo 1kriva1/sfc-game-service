@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "Messages/Game/Team/General/Find/Filters/game_team_filter.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Messages.Game.Team.General.Find.Filters";
+
+message GameTeamsFilter
+{
+    int64 game_id = 1;
+    GameTeamFilter game_team = 2;
+}
