@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Models.Common";
+
+message RangeLimit
+{
+    google.protobuf.Int32Value from = 1;
+    google.protobuf.Int32Value to = 2;
+}

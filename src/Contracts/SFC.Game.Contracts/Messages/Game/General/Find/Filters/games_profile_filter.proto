@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+
+package sfc_game;
+
+import "Messages/Game/General/Find/Filters/games_general_profile_filter.proto";
+import "Messages/Game/General/Find/Filters/games_financial_profile_filter.proto";
+import "Messages/Game/General/Find/Filters/games_inventary_profile_filter.proto";
+
+option csharp_namespace = "SFC.Game.Contracts.Messages.Game.General.Find.Filters";
+
+message GamesProfileFilter
+{
+    GamesGeneralProfileFilter general = 1;
+    GamesFinancialProfileFilter financial = 2;
+    GamesInventaryProfileFilter inventary = 3;
+}

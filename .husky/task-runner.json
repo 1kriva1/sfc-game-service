@@ -1,0 +1,30 @@
+{
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "dotnet-format-staged-files",
+      "group": "pre-commit-operations",
+      "command": "dotnet",
+      "args": [ "format", "SFC.Game.sln", "--verbosity", "diagnostic", "--include", "${staged}" ],
+      "include": [ "**/*.cs" ]
+    },
+    {
+      "name": "dotnet-build",
+      "group": "pre-commit-operations",
+      "command": "dotnet",
+      "args": [ "build", "SFC.Game.sln", "--no-restore", "--configuration", "Release" ]
+    },
+    {
+      "name": "dotnet-test",
+      "group": "pre-push-operations",
+      "command": "dotnet",
+      "args": [ "test", "SFC.Game.sln", "--no-restore", "--no-build", "/p:CollectCoverage=true", "/p:CoverletOutput=../coverage/code_coverage", "/p:CoverletOutputFormat=opencover", "/p:Threshold=0", "/p:ThresholdStat=total" ]
+    },
+    {
+      "name": "dotnet-reportgenerator-create",
+      "group": "pre-push-operations",
+      "command": "reportgenerator",
+      "args": [ "-reports:tests/coverage/code_coverage.opencover.xml", "-targetdir:tests/coverage/report", "-reporttypes:Html", "-assemblyfilters:+SFC.Game.Domain;+SFC.Game.Application;+SFC.Game.Infrastructure.Persistence;+SFC.Game.Infrastructure;+SFC.Game.Api" ]
+    }
+  ]
+}

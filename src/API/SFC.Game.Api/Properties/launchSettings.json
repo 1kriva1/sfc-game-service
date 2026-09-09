@@ -1,0 +1,46 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "SFC.Game": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://+:7966;http://+:7965",
+        "ASPNETCORE_HTTPS_PORT": "7966",
+        "ConnectionStrings__Database": "Server=127.0.0.1,1433;Database=Game;User Id=sfc;Password=Test1234!;TrustServerCertificate=True;",
+        "ConnectionStrings__Hangfire": "Server=127.0.0.1,1433;Database=Hangfire;User Id=sfc;Password=Test1234!;TrustServerCertificate=True;",
+        "ConnectionStrings__RabbitMq": "rabbitmq://localhost:5672",
+        "ConnectionStrings__Redis": "localhost:6379",
+        "Grpc__Endpoints__Identity__Uri": "https://localhost:7266",
+        "Grpc__Endpoints__Player__Uri": "https://localhost:7366",
+        "Grpc__Endpoints__Team__Uri": "https://localhost:7566",
+        "Kestrel__Certificates__Default__Path": "C:/SFC/Configurations/certificates/sfc-game/sfc-game.pfx",
+        "Kestrel__Certificates__Default__Password": "Test1234!"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7966;http://localhost:7965",
+      "httpPort": 7965,
+      "useSSL": true,
+      "sslPort": 7966,
+      "nativeDebugging": true
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://+:7966;http://+:7965",
+        "ASPNETCORE_HTTPS_PORT": "7966"
+      },
+      "mycontainer": "sfc-game",
+      "DockerfileRunArguments": "--network sfc-network --volume C:/SFC/Configurations/certificates/sfc-game/sfc-game.pfx:/https/sfc-game.pfx",
+      "httpPort": 7965,
+      "useSSL": true,
+      "sslPort": 7966,
+      "containerName": "sfc-game"
+    }
+  }
+}

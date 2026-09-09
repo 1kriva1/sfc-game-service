@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>    
+    <IncludePlayerInfrastructure>True</IncludePlayerInfrastructure>
+    <IncludeTeamInfrastructure>True</IncludeTeamInfrastructure>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
+    <PackageReference Include="Grpc.StatusProto" Version="2.67.0" />
+    <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="IdentityModel.AspNetCore" Version="4.3.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.67.0" />
+    <PackageReference Include="MassTransit" Version="8.3.4" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.4" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.14" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
+    <PackageReference Include="SFC.Data.Messages" Version="0.0.8" />
+    <PackageReference Include="SFC.Identity.Messages" Version="0.0.6" />
+    <PackageReference Include="SFC.Identity.Contracts" Version="0.0.3" />        
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SFC.Player.Contracts" Version="0.0.3" />
+    <PackageReference Include="SFC.Player.Messages" Version="0.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SFC.Team.Contracts" Version="0.0.4" />
+    <PackageReference Include="SFC.Team.Messages" Version="0.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SFC.Invite.Messages" Version="0.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SFC.Request.Messages" Version="0.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SFC.Scheme.Messages" Version="0.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contracts\SFC.Game.Contracts\SFC.Game.Contracts.csproj" />
+    <ProjectReference Include="..\..\Contracts\SFC.Game.Messages\SFC.Game.Messages.csproj" />
+    <ProjectReference Include="..\..\Core\SFC.Game.Application\SFC.Game.Application.csproj" />
+    <ProjectReference Include="..\SFC.Game.Infrastructure.Persistence\SFC.Game.Infrastructure.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
