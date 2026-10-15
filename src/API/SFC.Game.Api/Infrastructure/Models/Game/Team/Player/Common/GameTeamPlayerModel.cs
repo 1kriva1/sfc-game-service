@@ -18,15 +18,14 @@ public class GameTeamPlayerModel : IMapFrom<GameTeamPlayerDto>
     public long Id { get; set; }
 
     /// <summary>
-    /// Game Team Player status.
-    /// </summary>
-    public int Status { get; set; }
-
-    /// <summary>
     /// Game Team Player related to this player.
     /// </summary>
     public PlayerModel? Player { get; set; }
 
-    public void Mapping(Profile profile) => profile.CreateMap<GameTeamPlayerDto, GameTeamPlayerModel>()
-                                                   .ForMember(p => p.Status, d => d.MapFrom(z => z.StatusId));
+    /// <summary>
+    /// Game Team related to this game team player.
+    /// </summary>
+    public GameTeamModel? GameTeam { get; set; }
+
+    public void Mapping(Profile profile) => profile.CreateMap<GameTeamPlayerDto, GameTeamPlayerModel>();
 }

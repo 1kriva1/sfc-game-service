@@ -65,4 +65,6 @@ public class GameTeamPlayerDomainEventsExchange
     public Exchange Created { get; set; } = default!;
 
     public Exchange Updated { get; set; } = default!;
+
+    public Exchange Deleted { get; set; } = default!;
 }

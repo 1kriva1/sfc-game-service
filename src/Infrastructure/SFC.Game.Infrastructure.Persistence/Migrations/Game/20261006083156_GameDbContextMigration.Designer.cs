@@ -12,7 +12,7 @@ using SFC.Game.Infrastructure.Persistence.Contexts;
 namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
 {
     [DbContext(typeof(GameDbContext))]
-    [Migration("20260904135850_GameDbContextMigration")]
+    [Migration("20261006083156_GameDbContextMigration")]
     partial class GameDbContextMigration
     {
         /// <inheritdoc />
@@ -199,13 +199,13 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         new
                         {
                             Id = 0,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5918),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6244),
                             Title = "In Game"
                         },
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5939),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6268),
                             Title = "Out Of Game"
                         });
                 });
@@ -233,31 +233,31 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         new
                         {
                             Id = 0,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5590),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5823),
                             Title = "New"
                         },
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5605),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5841),
                             Title = "Upcoming"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5612),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5848),
                             Title = "Active"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5617),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5856),
                             Title = "Finished"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5623),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5863),
                             Title = "Canceled"
                         });
                 });
@@ -285,13 +285,13 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         new
                         {
                             Id = 0,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6354),
                             Title = "A"
                         },
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(6017),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6363),
                             Title = "B"
                         });
                 });
@@ -319,13 +319,13 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         new
                         {
                             Id = 0,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5807),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6063),
                             Title = "In Game"
                         },
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5833),
+                            CreatedDate = new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6099),
                             Title = "Out Of Game"
                         });
                 });
@@ -394,7 +394,7 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("FreeGame")
+                    b.Property<bool?>("FreeGame")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -438,7 +438,7 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Property<int?>("ShirtsCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ShirtsRequired")
+                    b.Property<bool?>("ShirtsRequired")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -489,9 +489,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Property<long>("GameId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("GameTeamId")
-                        .HasColumnType("bigint");
-
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -511,10 +508,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("GameTeamId");
-
                     b.HasIndex("LastModifiedBy");
 
                     b.HasIndex("PlayerId");
@@ -522,6 +515,9 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("GameId", "PlayerId")
+                        .IsUnique();
 
                     b.ToTable("Players", "Game");
                 });
@@ -597,6 +593,9 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("GamePlayerId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("GameTeamId")
                         .HasColumnType("bigint");
 
@@ -606,11 +605,8 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("PlayerId")
+                    b.Property<long?>("TeamPlayerId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -619,16 +615,19 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("GamePlayerId")
+                        .IsUnique()
+                        .HasFilter("[GamePlayerId] IS NOT NULL");
+
                     b.HasIndex("LastModifiedBy");
 
-                    b.HasIndex("PlayerId");
-
-                    b.HasIndex("StatusId");
+                    b.HasIndex("TeamPlayerId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("GameTeamId", "PlayerId")
-                        .IsUnique();
+                    b.HasIndex("GameTeamId", "GamePlayerId", "TeamPlayerId")
+                        .IsUnique()
+                        .HasFilter("[GamePlayerId] IS NOT NULL AND [TeamPlayerId] IS NOT NULL");
 
                     b.ToTable("TeamPlayers", "Game");
                 });
@@ -1611,11 +1610,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("SFC.Game.Domain.Entities.Game.Team.General.GameTeam", "GameTeam")
-                        .WithMany()
-                        .HasForeignKey("GameTeamId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("SFC.Game.Domain.Entities.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("LastModifiedBy")
@@ -1640,8 +1634,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.Navigation("GameTeam");
-
                     b.Navigation("Player");
                 });
 
@@ -1653,7 +1645,7 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("SFC.Game.Domain.Entities.Game.General.Game", null)
+                    b.HasOne("SFC.Game.Domain.Entities.Game.General.Game", "Game")
                         .WithMany("Teams")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -1687,6 +1679,8 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.Navigation("Game");
+
                     b.Navigation("Team");
                 });
 
@@ -1697,6 +1691,10 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("SFC.Game.Domain.Entities.Game.Player.GamePlayer", "GamePlayer")
+                        .WithOne("GameTeamPlayer")
+                        .HasForeignKey("SFC.Game.Domain.Entities.Game.Team.Player.GameTeamPlayer", "GamePlayerId");
 
                     b.HasOne("SFC.Game.Domain.Entities.Game.Team.General.GameTeam", "GameTeam")
                         .WithMany("Players")
@@ -1710,17 +1708,9 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("SFC.Game.Domain.Entities.Player.Player", "Player")
+                    b.HasOne("SFC.Game.Domain.Entities.Team.Player.TeamPlayer", "TeamPlayer")
                         .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SFC.Game.Domain.Entities.Team.Data.TeamPlayerStatus", null)
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeamPlayerId");
 
                     b.HasOne("SFC.Game.Domain.Entities.Identity.User", null)
                         .WithMany()
@@ -1728,9 +1718,11 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.Navigation("GamePlayer");
+
                     b.Navigation("GameTeam");
 
-                    b.Navigation("Player");
+                    b.Navigation("TeamPlayer");
                 });
 
             modelBuilder.Entity("SFC.Game.Domain.Entities.Identity.User", b =>
@@ -2084,6 +2076,11 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     b.Navigation("Tags");
 
                     b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("SFC.Game.Domain.Entities.Game.Player.GamePlayer", b =>
+                {
+                    b.Navigation("GameTeamPlayer");
                 });
 
             modelBuilder.Entity("SFC.Game.Domain.Entities.Game.Team.General.GameTeam", b =>

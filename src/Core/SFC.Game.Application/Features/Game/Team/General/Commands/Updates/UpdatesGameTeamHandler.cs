@@ -4,7 +4,7 @@ using MediatR;
 
 using SFC.Game.Application.Common.Constants;
 using SFC.Game.Application.Common.Exceptions;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Events.Game.Team.General;
 
@@ -25,23 +25,22 @@ public class UpdatesGameTeamHandler(IMapper mapper, IGameTeamRepository gameTeam
             .GetByIdsAsync(gameIds, teamIds)
             .ConfigureAwait(false);
 
-        if (!existingGameTeams.Any())
-        {
-            throw new NotFoundException(Localization.GameTeamsNotFound);
-        }
-
-        IEnumerable<GameTeam> updatedGameTeams = request.GameTeams
+        List<GameTeam> updatedGameTeams = request.GameTeams
             .Join(existingGameTeams,
                 dto => (dto.GameId, dto.TeamId),
                 entity => (entity.GameId, entity.TeamId),
-                (dto, entity) => _mapper.Map(dto, entity));
+                (dto, entity) => _mapper.Map(dto, entity))
+            .ToList();
 
-        foreach (GameTeam updatedGameTeam in updatedGameTeams)
+        if (updatedGameTeams.Count > 0)
         {
-            updatedGameTeam.AddDomainEvent(new GameTeamUpdatedEvent(updatedGameTeam));
-        }
+            foreach (GameTeam updatedGameTeam in updatedGameTeams)
+            {
+                updatedGameTeam.AddDomainEvent(new GameTeamUpdatedEvent(updatedGameTeam));
+            }
 
-        await _gameTeamRepository.UpdateRangeAsync([.. updatedGameTeams])
+            await _gameTeamRepository.UpdateRangeAsync([.. updatedGameTeams])
                                  .ConfigureAwait(false);
+        }
     }
 }

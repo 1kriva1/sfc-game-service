@@ -94,6 +94,8 @@ public class MappingProfile : BaseMappingProfile
 
         CreateMapTeamMessages();
 
+        CreateMapTeamContracts();
+
         #endregion Team
 
         #region Invite
@@ -268,6 +270,21 @@ public class MappingProfile : BaseMappingProfile
         CreateMap<SFC.Team.Messages.Models.Team.Player.TeamPlayer, TeamPlayerDto>();
     }
 
+    private void CreateMapTeamContracts()
+    {
+        CreateMap<long, SFC.Team.Contracts.Messages.Team.General.Get.GetTeamRequest>()
+            .ConvertUsing(id => new SFC.Team.Contracts.Messages.Team.General.Get.GetTeamRequest { Id = id });
+
+        CreateMap<SFC.Team.Contracts.Models.Team.General.Team, TeamDto>();
+        CreateMap<SFC.Team.Contracts.Models.Team.General.TeamProfile, TeamProfileDto>();
+        CreateMap<SFC.Team.Contracts.Models.Team.General.TeamAvailability, TeamAvailabilityDto>();
+        CreateMap<SFC.Team.Contracts.Models.Team.General.TeamFinancialProfile, TeamFinancialProfileDto>();
+        CreateMap<SFC.Team.Contracts.Models.Team.General.TeamGeneralProfile, TeamGeneralProfileDto>();
+        CreateMap<SFC.Team.Contracts.Models.Team.General.TeamInventaryProfile, TeamInventaryProfileDto>();
+
+        CreateMap<SFC.Team.Contracts.Models.Team.Player.TeamPlayer, TeamPlayerDto>();
+    }
+
     #endregion Team
 
     #region Invite
@@ -345,6 +362,7 @@ public class MappingProfile : BaseMappingProfile
         CreateMap<GameStatus, SFC.Scheme.Messages.Models.Data.DataValue>();
         CreateMap<GameTeamStatus, SFC.Scheme.Messages.Models.Data.DataValue>();
         CreateMap<GameTeamIndex, SFC.Scheme.Messages.Models.Data.DataValue>();
+        CreateMap<GamePlayerStatus, SFC.Scheme.Messages.Models.Data.DataValue>();
     }
 
     #endregion Scheme
@@ -422,6 +440,8 @@ public class MappingProfile : BaseMappingProfile
         CreateMap<GameTeamPlayer, GameTeamPlayerUpdated>()
             .ForMember(p => p.GameTeamPlayer, d => d.MapFrom(z => z));
         CreateMap<GameTeamPlayer, GameTeamPlayerCreated>()
+            .ForMember(p => p.GameTeamPlayer, d => d.MapFrom(z => z));
+        CreateMap<GameTeamPlayer, GameTeamPlayerDeleted>()
             .ForMember(p => p.GameTeamPlayer, d => d.MapFrom(z => z));
         // commands
         CreateMap<IEnumerable<GameTeamPlayer>, SeedGameTeamPlayers>()

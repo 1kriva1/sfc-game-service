@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -518,7 +517,7 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    FreeGame = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    FreeGame = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
                     PayAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true)
                 },
                 constraints: table =>
@@ -561,7 +560,7 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    ShirtsRequired = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ShirtsRequired = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
                     ShirtsCount = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -718,6 +717,65 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Players",
+                schema: "Game",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GameId = table.Column<long>(type: "bigint", nullable: false),
+                    PlayerId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Players", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Players_Games_GameId",
+                        column: x => x.GameId,
+                        principalSchema: "Game",
+                        principalTable: "Games",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Players_PlayerStatuses_StatusId",
+                        column: x => x.StatusId,
+                        principalSchema: "Game",
+                        principalTable: "PlayerStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Players_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalSchema: "Player",
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Players_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Players_Users_LastModifiedBy",
+                        column: x => x.LastModifiedBy,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Players_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1101,72 +1159,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 });
 
             migrationBuilder.CreateTable(
-                name: "Players",
-                schema: "Game",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GameId = table.Column<long>(type: "bigint", nullable: false),
-                    PlayerId = table.Column<long>(type: "bigint", nullable: false),
-                    GameTeamId = table.Column<long>(type: "bigint", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Players", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Players_Games_GameId",
-                        column: x => x.GameId,
-                        principalSchema: "Game",
-                        principalTable: "Games",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Players_PlayerStatuses_StatusId",
-                        column: x => x.StatusId,
-                        principalSchema: "Game",
-                        principalTable: "PlayerStatuses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Players_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalSchema: "Player",
-                        principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Players_Teams_GameTeamId",
-                        column: x => x.GameTeamId,
-                        principalSchema: "Game",
-                        principalTable: "Teams",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Players_Users_CreatedBy",
-                        column: x => x.CreatedBy,
-                        principalSchema: "Identity",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Players_Users_LastModifiedBy",
-                        column: x => x.LastModifiedBy,
-                        principalSchema: "Identity",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Players_Users_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TeamPlayers",
                 schema: "Game",
                 columns: table => new
@@ -1174,9 +1166,9 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GameTeamId = table.Column<long>(type: "bigint", nullable: false),
-                    PlayerId = table.Column<long>(type: "bigint", nullable: false),
+                    GamePlayerId = table.Column<long>(type: "bigint", nullable: true),
+                    TeamPlayerId = table.Column<long>(type: "bigint", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1186,19 +1178,17 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 {
                     table.PrimaryKey("PK_TeamPlayers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeamPlayers_PlayerStatuses_StatusId",
-                        column: x => x.StatusId,
-                        principalSchema: "Team",
-                        principalTable: "PlayerStatuses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeamPlayers_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalSchema: "Player",
+                        name: "FK_TeamPlayers_Players_GamePlayerId",
+                        column: x => x.GamePlayerId,
+                        principalSchema: "Game",
                         principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TeamPlayers_Players_TeamPlayerId",
+                        column: x => x.TeamPlayerId,
+                        principalSchema: "Team",
+                        principalTable: "Players",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TeamPlayers_Teams_GameTeamId",
                         column: x => x.GameTeamId,
@@ -1248,8 +1238,8 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: new[] { "Id", "CreatedDate", "Title" },
                 values: new object[,]
                 {
-                    { 0, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5918), "In Game" },
-                    { 1, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5939), "Out Of Game" }
+                    { 0, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6244), "In Game" },
+                    { 1, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6268), "Out Of Game" }
                 });
 
             migrationBuilder.InsertData(
@@ -1284,11 +1274,11 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: new[] { "Id", "CreatedDate", "Title" },
                 values: new object[,]
                 {
-                    { 0, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5590), "New" },
-                    { 1, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5605), "Upcoming" },
-                    { 2, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5612), "Active" },
-                    { 3, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5617), "Finished" },
-                    { 4, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5623), "Canceled" }
+                    { 0, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5823), "New" },
+                    { 1, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5841), "Upcoming" },
+                    { 2, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5848), "Active" },
+                    { 3, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5856), "Finished" },
+                    { 4, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(5863), "Canceled" }
                 });
 
             migrationBuilder.InsertData(
@@ -1297,8 +1287,8 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: new[] { "Id", "CreatedDate", "Title" },
                 values: new object[,]
                 {
-                    { 0, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(6009), "A" },
-                    { 1, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(6017), "B" }
+                    { 0, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6354), "A" },
+                    { 1, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6363), "B" }
                 });
 
             migrationBuilder.InsertData(
@@ -1307,8 +1297,8 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 columns: new[] { "Id", "CreatedDate", "Title" },
                 values: new object[,]
                 {
-                    { 0, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5807), "In Game" },
-                    { 1, new DateTime(2026, 9, 4, 13, 58, 50, 179, DateTimeKind.Utc).AddTicks(5833), "Out Of Game" }
+                    { 0, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6063), "In Game" },
+                    { 1, new DateTime(2026, 10, 6, 8, 31, 55, 308, DateTimeKind.Utc).AddTicks(6099), "Out Of Game" }
                 });
 
             migrationBuilder.InsertData(
@@ -1427,16 +1417,11 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_GameId",
+                name: "IX_Players_GameId_PlayerId",
                 schema: "Game",
                 table: "Players",
-                column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Players_GameTeamId",
-                schema: "Game",
-                table: "Players",
-                column: "GameTeamId");
+                columns: new[] { "GameId", "PlayerId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Players_LastModifiedBy",
@@ -1578,11 +1563,20 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamPlayers_GameTeamId_PlayerId",
+                name: "IX_TeamPlayers_GamePlayerId",
                 schema: "Game",
                 table: "TeamPlayers",
-                columns: new[] { "GameTeamId", "PlayerId" },
-                unique: true);
+                column: "GamePlayerId",
+                unique: true,
+                filter: "[GamePlayerId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamPlayers_GameTeamId_GamePlayerId_TeamPlayerId",
+                schema: "Game",
+                table: "TeamPlayers",
+                columns: new[] { "GameTeamId", "GamePlayerId", "TeamPlayerId" },
+                unique: true,
+                filter: "[GamePlayerId] IS NOT NULL AND [TeamPlayerId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamPlayers_LastModifiedBy",
@@ -1591,16 +1585,10 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 column: "LastModifiedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamPlayers_PlayerId",
+                name: "IX_TeamPlayers_TeamPlayerId",
                 schema: "Game",
                 table: "TeamPlayers",
-                column: "PlayerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamPlayers_StatusId",
-                schema: "Game",
-                table: "TeamPlayers",
-                column: "StatusId");
+                column: "TeamPlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamPlayers_UserId",
@@ -1746,14 +1734,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 schema: "Player");
 
             migrationBuilder.DropTable(
-                name: "Players",
-                schema: "Game");
-
-            migrationBuilder.DropTable(
-                name: "Players",
-                schema: "Team");
-
-            migrationBuilder.DropTable(
                 name: "Points",
                 schema: "Player");
 
@@ -1818,10 +1798,6 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 schema: "Metadata");
 
             migrationBuilder.DropTable(
-                name: "PlayerStatuses",
-                schema: "Game");
-
-            migrationBuilder.DropTable(
                 name: "Shirts",
                 schema: "Data");
 
@@ -1830,16 +1806,16 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
                 schema: "Data");
 
             migrationBuilder.DropTable(
-                name: "PlayerStatuses",
+                name: "Players",
+                schema: "Game");
+
+            migrationBuilder.DropTable(
+                name: "Players",
                 schema: "Team");
 
             migrationBuilder.DropTable(
                 name: "Teams",
                 schema: "Game");
-
-            migrationBuilder.DropTable(
-                name: "Players",
-                schema: "Player");
 
             migrationBuilder.DropTable(
                 name: "StatCategories",
@@ -1848,6 +1824,18 @@ namespace SFC.Game.Infrastructure.Persistence.Migrations.Game
             migrationBuilder.DropTable(
                 name: "StatSkills",
                 schema: "Data");
+
+            migrationBuilder.DropTable(
+                name: "PlayerStatuses",
+                schema: "Game");
+
+            migrationBuilder.DropTable(
+                name: "PlayerStatuses",
+                schema: "Team");
+
+            migrationBuilder.DropTable(
+                name: "Players",
+                schema: "Player");
 
             migrationBuilder.DropTable(
                 name: "Games",

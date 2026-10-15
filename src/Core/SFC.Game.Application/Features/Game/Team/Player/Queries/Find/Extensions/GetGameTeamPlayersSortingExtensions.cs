@@ -18,14 +18,31 @@ public static class GetGameTeamPlayersSortingExtensions
     {
         return name switch
         {
-            $"{nameof(GetGameTeamPlayersFilterDto.GameTeamPlayer)}.{nameof(GetGameTeamPlayersGameTeamPlayerFilterDto.Statuses)}" => p => p.StatusId,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerGeneralProfile.FirstName)}" => p => p.Player.GeneralProfile.FirstName,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerGeneralProfile.LastName)}" => p => p.Player.GeneralProfile.LastName,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.PhysicalCondition)}" => p => p.Player.FootballProfile.PhysicalCondition!,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.Height)}" => p => p.Player.FootballProfile.Height!,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.Weight)}" => p => p.Player.FootballProfile.Weight!,
-            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerStatsFilterDto.Raiting)}" => p => p.Player.Stats.Sum(m => m.Value),
-            _ => p => p.StatusId
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerGeneralProfile.FirstName)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.GeneralProfile.FirstName
+                    : p.TeamPlayer!.Player.GeneralProfile.FirstName,
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerGeneralProfile.LastName)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.GeneralProfile.LastName
+                    : p.TeamPlayer!.Player.GeneralProfile.LastName,
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.PhysicalCondition)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.FootballProfile.PhysicalCondition!
+                    : p.TeamPlayer!.Player.FootballProfile.PhysicalCondition!,
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.Height)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.FootballProfile.Height!
+                    : p.TeamPlayer!.Player.FootballProfile.Height!,
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerFootballProfile.Weight)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.FootballProfile.Weight!
+                    : p.TeamPlayer!.Player.FootballProfile.Weight!,
+            $"{nameof(GetGameTeamPlayersFilterDto.Player)}.{nameof(PlayerStatsFilterDto.Raiting)}" =>
+                p => p.GamePlayer != null
+                    ? p.GamePlayer.Player.Stats.Sum(m => m.Value)
+                    : p.TeamPlayer!.Player.Stats.Sum(m => m.Value),
+            _ => null
         };
     }
 }

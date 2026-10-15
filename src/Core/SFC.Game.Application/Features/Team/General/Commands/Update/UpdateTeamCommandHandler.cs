@@ -17,7 +17,8 @@ public class UpdateTeamCommandHandler(
 
     public async Task Handle(UpdateTeamCommand request, CancellationToken cancellationToken)
     {
-        TeamEntity team = await _teamRepository.GetByIdAsync(request.Team.Id).ConfigureAwait(true)
+        TeamEntity team = await _teamRepository.GetByIdAsync(request.Team.Id,
+            [TeamIncludeOptions.Profile, TeamIncludeOptions.TeamPlayers]).ConfigureAwait(true)
             ?? throw new NotFoundException(Localization.TeamNotFound);
 
         TeamEntity updatedTeam = _mapper.Map(request.Team, team);

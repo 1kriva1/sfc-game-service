@@ -65,7 +65,8 @@ public class GameDataService(
         {
             GameStatuses = await _gameStatusesRepository.ListAllAsync().ConfigureAwait(false),
             GameTeamStatuses = await _gameTeamStatusesRepository.ListAllAsync().ConfigureAwait(false),
-            GameTeamIndexes = await _gameTeamIndexRepository.ListAllAsync().ConfigureAwait(false)
+            GameTeamIndexes = await _gameTeamIndexRepository.ListAllAsync().ConfigureAwait(false),
+            GamePlayerStatuses = await _gamePlayerStatusesRepository.ListAllAsync().ConfigureAwait(false),
         };
     }
 

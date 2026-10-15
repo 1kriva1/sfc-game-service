@@ -22,4 +22,6 @@ public class PlayerReference(
 
     protected override Task<PlayerEntity> AddLocalAsync(PlayerEntity entity, CancellationToken cancellationToken = default)
         => _playerRepository.AddAsync(entity);
+
+    protected override void DetachLocal(PlayerEntity entity) => _playerRepository.DetachAddedGraph(entity);
 }

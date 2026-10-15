@@ -3,12 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using SFC.Game.Infrastructure.Extensions;
 using SFC.Game.Infrastructure.Settings;
 
 using StackExchange.Redis;
 
-namespace SFC.Scheme.Infrastructure.Extensions;
+namespace SFC.Game.Infrastructure.Extensions;
 
 public static class RedisExtensions
 {

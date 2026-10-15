@@ -46,6 +46,8 @@ public enum RequestId
     CreatesGameTeamPlayer,
     UpdateGameTeamPlayer,
     UpdatesGameTeamPlayer,
+    DeleteGameTeamPlayer,
+    DeletesGameTeamPlayer,
     // game player
     GetGamePlayer,
     CreateGamePlayer,

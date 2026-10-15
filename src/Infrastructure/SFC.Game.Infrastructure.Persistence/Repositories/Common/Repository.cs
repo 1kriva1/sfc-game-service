@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using SFC.Game.Application.Features.Common.Models.Find;
 using SFC.Game.Application.Features.Common.Models.Find.Paging;
@@ -81,5 +84,42 @@ public class Repository<TEntity, TContext, TId>(TContext context) : IRepository<
         Context.Set<TEntity>().Remove(entity);
 
         return Context.SaveChangesAsync();
+    }
+
+    public Task DeleteRangeAsync(params TEntity[] entities)
+    {
+        Context.Set<TEntity>().RemoveRange(entities);
+
+        return Context.SaveChangesAsync();
+    }
+
+    public void DetachAddedGraph(TEntity entity)
+    {
+        HashSet<object> visited = [];
+
+        void Walk(object node)
+        {
+            if (!visited.Add(node)) return;
+
+            EntityEntry entry = Context.Entry(node);
+            if (entry.State == EntityState.Added)
+                entry.State = EntityState.Detached;
+
+            foreach (NavigationEntry nav in entry.Navigations)
+            {
+                switch (nav.CurrentValue)
+                {
+                    case null: continue;
+                    case IEnumerable items and not string:
+                        foreach (object item in items) Walk(item);
+                        break;
+                    default:
+                        Walk(nav.CurrentValue);
+                        break;
+                }
+            }
+        }
+
+        Walk(entity);
     }
 }

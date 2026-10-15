@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using SFC.Game.Domain.Entities.Game.Data;
 using SFC.Game.Domain.Entities.Game.Player;
-using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Entities.Identity;
 using SFC.Game.Infrastructure.Persistence.Configurations.Base;
 
@@ -14,11 +13,8 @@ public class GamePlayerConfiguration : AuditableEntityConfiguration<GamePlayer, 
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.HasOne<GameTeam>(t => t.GameTeam)
-               .WithMany()
-               .HasForeignKey(t => t.GameTeamId)
-               .IsRequired(false)
-               .OnDelete(DeleteBehavior.NoAction);
+        builder.HasIndex(gp => new { gp.GameId, gp.PlayerId })
+               .IsUnique();
 
         builder.HasOne<GamePlayerStatus>()
                .WithMany()

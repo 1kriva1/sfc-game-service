@@ -2,7 +2,7 @@
 
 using SFC.Game.Application.Features.Common.Models.Find;
 using SFC.Game.Application.Features.Common.Models.Find.Paging;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Infrastructure.Persistence.Contexts;
 using SFC.Game.Infrastructure.Persistence.Extensions;
@@ -16,7 +16,7 @@ public class GameTeamRepository(GameDbContext context)
     public override Task<PagedList<GameTeam>> FindAsync(FindParameters<GameTeam> parameters)
     {
         return Context.GameTeams
-                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile)
+                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile, GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile)
                       .AsQueryable()
                       .PaginateAsync(parameters);
     }
@@ -24,14 +24,14 @@ public class GameTeamRepository(GameDbContext context)
     public Task<GameTeam?> GetByIdAsync(long gameId, long teamId)
     {
         return Context.GameTeams
-                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile)
+                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile, GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile)
                       .FirstOrDefaultAsync(item => item.GameId == gameId && item.TeamId == teamId);
     }
 
     public Task<GameTeam?> GetByIdAsync(long id, long gameId, long teamId)
     {
         return Context.GameTeams
-                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile)
+                      .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile, GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile)
                       .FirstOrDefaultAsync(item => item.Id == id && item.GameId == gameId && item.Team.Id == teamId);
     }
 
@@ -40,6 +40,14 @@ public class GameTeamRepository(GameDbContext context)
         return Context.GameTeams
                       .AsNoTracking()
                       .IncludeGameTeam(includes)
+                      .FirstOrDefaultAsync(item => item.GameId == gameId && item.TeamId == teamId);
+    }
+
+    public Task<GameTeam?> GetByIdAsync(long gameId, long teamId, GameTeamIncludeOptions[] options)
+    {
+        return Context.GameTeams
+                      .AsNoTracking()
+                      .IncludeGameTeam(options)
                       .FirstOrDefaultAsync(item => item.GameId == gameId && item.TeamId == teamId);
     }
 
@@ -54,7 +62,7 @@ public class GameTeamRepository(GameDbContext context)
     public async Task<IReadOnlyList<GameTeam>> ListAllAsync(long gameId)
     {
         return await Context.GameTeams
-                            .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile)
+                            .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile, GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile)
                             .Where(gameTeam => gameTeam.GameId == gameId)
                             .ToListAsync()
                             .ConfigureAwait(true);
@@ -73,7 +81,7 @@ public class GameTeamRepository(GameDbContext context)
     public async Task<IReadOnlyList<GameTeam>> ListAllAsync(long gameId, GameTeamStatusEnum status)
     {
         return await Context.GameTeams
-                            .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile)
+                            .IncludeGameTeam(GameTeamIncludeOptions.TeamProfile, GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile, GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile)
                             .Where(gameTeam => gameTeam.GameId == gameId && gameTeam.StatusId == status)
                             .ToListAsync()
                             .ConfigureAwait(true);

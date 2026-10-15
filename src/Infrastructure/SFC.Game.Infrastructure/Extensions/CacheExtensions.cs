@@ -7,7 +7,6 @@ using SFC.Game.Application.Interfaces.Cache;
 using SFC.Game.Infrastructure.Cache;
 using SFC.Game.Infrastructure.Persistence.Constants;
 using SFC.Game.Infrastructure.Services.Cache;
-using SFC.Scheme.Infrastructure.Extensions;
 
 namespace SFC.Game.Infrastructure.Extensions;
 public static class CacheExtensions

@@ -4,7 +4,7 @@ using SFC.Game.Application.Interfaces.Persistence.Context;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Common;
 using SFC.Game.Domain.Entities.Game.Team.General;
 
-namespace SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+namespace SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 
 public interface IGameTeamRepository : IRepository<GameTeam, IGameDbContext, long>
 {
@@ -15,6 +15,8 @@ public interface IGameTeamRepository : IRepository<GameTeam, IGameDbContext, lon
     Task<IReadOnlyList<GameTeam>> GetByIdsAsync(IEnumerable<long> gameIds, IEnumerable<long> teamIds);
 
     Task<GameTeam?> GetByIdAsync(long gameId, long teamId, IEnumerable<string>? includes);
+
+    Task<GameTeam?> GetByIdAsync(long gameId, long teamId, GameTeamIncludeOptions[] options);
 
     Task<PagedList<GameTeam>> FindAsync(FindParameters<GameTeam> parameters, IEnumerable<string>? includes);
 

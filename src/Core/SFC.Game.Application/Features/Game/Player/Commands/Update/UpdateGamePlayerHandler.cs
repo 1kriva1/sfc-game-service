@@ -26,6 +26,6 @@ public class UpdateGamePlayerHandler(IMapper mapper, IGamePlayerRepository gameP
         updatedGamePlayer.AddDomainEvent(new GamePlayerUpdatedEvent(updatedGamePlayer));
 
         await _gamePlayerRepository.UpdateAsync(updatedGamePlayer)
-                                 .ConfigureAwait(false);
+                                   .ConfigureAwait(false);
     }
 }

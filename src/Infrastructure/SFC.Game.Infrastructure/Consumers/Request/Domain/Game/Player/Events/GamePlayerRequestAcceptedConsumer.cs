@@ -11,7 +11,6 @@ using SFC.Game.Domain.Enums.Request;
 using SFC.Game.Infrastructure.Extensions;
 using SFC.Game.Infrastructure.Settings.RabbitMq;
 using SFC.Request.Messages.Events.Request.Game.Player;
-using SFC.Request.Messages.Events.Request.Game.Team;
 
 namespace SFC.Game.Infrastructure.Consumers.Request.Domain.Game.Player.Events;
 public class GamePlayerRequestAcceptedConsumer(IMapper mapper, ISender mediator) : IConsumer<GamePlayerRequestUpdated>

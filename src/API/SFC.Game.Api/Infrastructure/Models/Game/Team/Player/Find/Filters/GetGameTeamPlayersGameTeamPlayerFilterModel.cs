@@ -9,7 +9,7 @@ namespace SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters;
 public class GetGameTeamPlayersGameTeamPlayerFilterModel : IMapTo<GetGameTeamPlayersGameTeamPlayerFilterDto>
 {
     /// <summary>
-    /// Statuses of game team player.
+    /// Exclude game team player ids.
     /// </summary>
-    public IEnumerable<int> Statuses { get; set; } = default!;
+    public IEnumerable<int>? ExcludeIds { get; set; }
 }

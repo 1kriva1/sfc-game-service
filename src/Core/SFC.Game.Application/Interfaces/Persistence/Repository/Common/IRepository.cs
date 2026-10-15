@@ -22,4 +22,8 @@ public interface IRepository<TEntity, TContext, TId>
     Task UpdateRangeAsync(params TEntity[] entities);
 
     Task DeleteAsync(TEntity entity);
+
+    Task DeleteRangeAsync(params TEntity[] entities);
+
+    void DetachAddedGraph(TEntity entity);
 }

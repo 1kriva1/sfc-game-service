@@ -32,12 +32,12 @@ public class GameValidator<T> : AbstractValidator<T> where T : BaseGameDto
            .MaximumLength(ValidationConstants.DescriptionValueMaxLength)
            .WithName(nameof(GameGeneralProfileDto.Description));
 
-        When(p => p.Profile!.General.Tags.Any(), () =>
+        When(p => p.Profile!.General.Tags?.Any() ?? false, () =>
         {
             RuleFor(p => p.Profile!.General.Tags)
-                .Must(tags => tags.Distinct().Count() == tags.Count())
+                .Must(tags => tags!.Distinct().Count() == tags!.Count())
                 .WithMessage(Localization.MustBeUnique)
-                .Must(tags => tags.Count() <= ValidationConstants.TagsMaxLength)
+                .Must(tags => tags!.Count() <= ValidationConstants.TagsMaxLength)
                 .WithName(nameof(GameGeneralProfileDto.Tags))
                 .WithMessage(Localization.TagsSizeInvalid.BuildValidationMessage(nameof(GameGeneralProfileDto.Tags), ValidationConstants.TagsMaxLength));
 
@@ -66,7 +66,7 @@ public class GameValidator<T> : AbstractValidator<T> where T : BaseGameDto
 
     private void SetRulesForInventaryProfile()
     {
-        When(p => p.Profile!.Inventary.ShirtsRequired, () =>
+        When(p => p.Profile!.Inventary.ShirtsRequired ?? false, () =>
         {
             RuleFor(p => p.Profile!.Inventary.ShirtsCount)
                 .NotEmpty()
@@ -77,7 +77,7 @@ public class GameValidator<T> : AbstractValidator<T> where T : BaseGameDto
 
     private void SetRulesForFinancialProfile()
     {
-        When(p => !p.Profile!.Financial.FreeGame, () =>
+        When(p => !p.Profile!.Financial.FreeGame ?? false, () =>
         {
             RuleFor(p => p.Profile!.Financial.PayAmount)
                 .NotEmpty()

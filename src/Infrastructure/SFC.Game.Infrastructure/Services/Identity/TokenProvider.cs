@@ -34,7 +34,7 @@ public class TokenProvider(
 
     public async Task<string> GetTokenAsync(GrpcEndpoint endpoint, CancellationToken cancellationToken)
     {
-        if (_environment.IsDevelopment())
+        if (_environment.IsDevelopment() && !_configuration.UseAuthentication())
         {
             GrpcEndpointAuthenticationDevelopment? devEndpointAuthentication = GetDevelopmentAuthentication(endpoint.Key);
 
@@ -44,72 +44,133 @@ public class TokenProvider(
             }
         }
 
-        Guid userId = _httpContextAccessor.GetUserId() ?? throw new AuthorizationException(Localization.AuthorizationError);
-
         if (endpoint.Authentication is null)
         {
-            throw new ConfigurationException($"Missing Authentication settings for Grpc endpoint.");
+            throw new ConfigurationException("Missing Authentication settings for Grpc endpoint.");
         }
 
-        string accessTokenCacheKey = $"{endpoint.Authentication.ClientId}_{userId}";
+        Guid? userId = _httpContextAccessor.GetUserId();
 
-        ClientAccessToken? clientAccessToken = await _clientAccessTokenCache.GetAsync(
-            accessTokenCacheKey,
-            new ClientAccessTokenParameters(),
-            cancellationToken).ConfigureAwait(true);
+        return userId.HasValue
+            ? await GetTokenExchangeTokenAsync(userId, endpoint, cancellationToken).ConfigureAwait(false)
+            : await GetClientCredentialsTokenAsync(endpoint, cancellationToken).ConfigureAwait(false);
+    }
 
-        if (!string.IsNullOrWhiteSpace(clientAccessToken?.AccessToken))
+    private async Task<string> GetTokenExchangeTokenAsync(Guid? userId, GrpcEndpoint endpoint, CancellationToken cancellationToken)
+    {
+        string cacheKey = $"{endpoint.Authentication!.ExchangeToken.ClientId}_{userId}";
+
+        string? cached = await GetCachedTokenAsync(cacheKey, cancellationToken).ConfigureAwait(false);
+
+        if (!string.IsNullOrWhiteSpace(cached))
         {
-            return clientAccessToken.AccessToken;
+            return cached;
         }
 
+        string incomingAccessToken = await _httpContextAccessor.GetAccessTokenAsync().ConfigureAwait(false)
+            ?? throw new AuthorizationException(Localization.AuthorizationError);
+
+        DiscoveryDocumentResponse discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
+
+        using TokenExchangeTokenRequest request = new()
+        {
+            Address = discovery.TokenEndpoint,
+            GrantType = OidcConstants.GrantTypes.TokenExchange,
+            ClientId = endpoint.Authentication.ExchangeToken.ClientId,
+            ClientSecret = endpoint.Authentication.ExchangeToken.ClientSecret,
+            SubjectToken = incomingAccessToken,
+            SubjectTokenType = OidcConstants.TokenTypeIdentifiers.AccessToken,
+            Scope = endpoint.Authentication.ExchangeToken.Scopes
+        };
+
+        using HttpClient client = _httpClientFactory.CreateClient();
+
+        TokenResponse response = await client
+            .RequestTokenExchangeTokenAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+        return await HandleTokenResponseAsync(cacheKey, response, "Token exchange failed", cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<string> GetClientCredentialsTokenAsync(GrpcEndpoint endpoint, CancellationToken cancellationToken)
+    {
+        string cacheKey = $"{endpoint.Authentication!.ClientCredentials.ClientId}_background";
+
+        string? cached = await GetCachedTokenAsync(cacheKey, cancellationToken).ConfigureAwait(false);
+
+        if (!string.IsNullOrWhiteSpace(cached))
+        {
+            return cached;
+        }
+
+        DiscoveryDocumentResponse discovery = await GetDiscoveryDocumentAsync(cancellationToken).ConfigureAwait(false);
+
+        using ClientCredentialsTokenRequest request = new()
+        {
+            Address = discovery.TokenEndpoint,
+            ClientId = endpoint.Authentication.ClientCredentials.ClientId,
+            ClientSecret = endpoint.Authentication.ClientCredentials.ClientSecret,
+            Scope = endpoint.Authentication.ClientCredentials.Scopes
+        };
+
+        using HttpClient client = _httpClientFactory.CreateClient();
+
+        TokenResponse response = await client
+            .RequestClientCredentialsTokenAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+        return await HandleTokenResponseAsync(cacheKey, response, "Client credentials failed", cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<DiscoveryDocumentResponse> GetDiscoveryDocumentAsync(CancellationToken cancellationToken)
+    {
         IdentitySettings identitySettings = _configuration.GetIdentitySettings();
 
         using HttpClient client = _httpClientFactory.CreateClient();
 
-        DiscoveryDocumentResponse discoveryDocument = await client.GetDiscoveryDocumentAsync(identitySettings.Authority, cancellationToken)
-                                                                  .ConfigureAwait(true);
+        DiscoveryDocumentResponse discovery = await client
+            .GetDiscoveryDocumentAsync(identitySettings.Authority, cancellationToken)
+            .ConfigureAwait(false);
 
-        if (discoveryDocument.IsError)
-        {
-            throw new TokenExchangeException($"Token exchanged failed: {discoveryDocument.Error}");
-        }
+        return discovery.IsError
+            ? throw new TokenExchangeException(discovery.Error ?? "Discovery document request failed.")
+            : discovery;
+    }
 
-        string incomingAccessToken = await _httpContextAccessor.GetAccessTokenAsync().ConfigureAwait(true)
-            ?? throw new AuthorizationException(Localization.AuthorizationError);
-
-        using TokenExchangeTokenRequest request = new()
-        {
-            Address = discoveryDocument.TokenEndpoint,
-            GrantType = OidcConstants.GrantTypes.TokenExchange,
-            ClientId = endpoint.Authentication.ClientId,
-            ClientSecret = endpoint.Authentication.ClientSecret,
-            SubjectToken = incomingAccessToken,
-            SubjectTokenType = OidcConstants.TokenTypeIdentifiers.AccessToken,
-            Scope = endpoint.Authentication.Scopes
-        };
-
-        TokenResponse exchangeResponse = await client.RequestTokenExchangeTokenAsync(request, cancellationToken)
-                                                     .ConfigureAwait(true);
-
-        if (exchangeResponse.IsError)
-        {
-            throw new TokenExchangeException($"Token exchanged failed: {exchangeResponse.ErrorDescription}");
-        }
-
-        if (exchangeResponse.AccessToken is null)
-        {
-            throw new TokenExchangeException("Token exchanged failed. Access token is null");
-        }
-
-        await _clientAccessTokenCache.SetAsync(
-            accessTokenCacheKey,
-            exchangeResponse.AccessToken,
-            exchangeResponse.ExpiresIn,
+    private async Task<string?> GetCachedTokenAsync(string cacheKey, CancellationToken cancellationToken)
+    {
+        ClientAccessToken? token = await _clientAccessTokenCache.GetAsync(
+            cacheKey,
             new ClientAccessTokenParameters(),
             cancellationToken).ConfigureAwait(false);
 
-        return exchangeResponse.AccessToken;
+        return token?.AccessToken;
+    }
+
+    private async Task<string> HandleTokenResponseAsync(
+        string cacheKey,
+        TokenResponse response,
+        string errorPrefix,
+        CancellationToken cancellationToken)
+    {
+        if (response.IsError)
+        {
+            throw new TokenExchangeException($"{errorPrefix}: {response.ErrorDescription}");
+        }
+
+        if (string.IsNullOrWhiteSpace(response.AccessToken))
+        {
+            throw new TokenExchangeException($"{errorPrefix}: access token is null");
+        }
+
+        await _clientAccessTokenCache.SetAsync(
+            cacheKey,
+            response.AccessToken,
+            response.ExpiresIn,
+            new ClientAccessTokenParameters(),
+            cancellationToken).ConfigureAwait(false);
+
+        return response.AccessToken;
     }
 
     private GrpcEndpointAuthenticationDevelopment? GetDevelopmentAuthentication(string endpointKey)

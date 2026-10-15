@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 
+using Microsoft.EntityFrameworkCore;
+
 using SFC.Game.Application.Interfaces.Reference;
 using SFC.Game.Domain.Common;
+using SFC.Game.Infrastructure.Persistence.Extensions;
 
 namespace SFC.Game.Infrastructure.Services.Reference;
 public abstract class BaseReference<TEntity, TId, TDto>(IMapper mapper)
@@ -15,21 +18,31 @@ public abstract class BaseReference<TEntity, TId, TDto>(IMapper mapper)
 
     protected abstract Task<TEntity> AddLocalAsync(TEntity entity, CancellationToken cancellationToken = default);
 
+    protected abstract void DetachLocal(TEntity entity);
+
     public async Task<TEntity?> GetAsync(TId id, CancellationToken cancellationToken = default)
     {
         TEntity? entity = await GetFromLocalAsync(id, cancellationToken).ConfigureAwait(true);
-
         if (entity is not null) return entity;
 
         TDto? reference = await GetFromReferenceAsync(id, cancellationToken).ConfigureAwait(true);
+        if (reference is null) return null;
 
-        if (reference is not null)
+        // check again before direct insert — another request/consumer may have won the race
+        entity = await GetFromLocalAsync(id, cancellationToken).ConfigureAwait(true);
+
+        if (entity is not null) return entity;
+
+        entity = _mapper.Map<TEntity>(reference);
+
+        try
         {
-            entity = _mapper.Map<TEntity>(reference);
-
-            await AddLocalAsync(entity, cancellationToken).ConfigureAwait(false);
+            return await AddLocalAsync(entity, cancellationToken).ConfigureAwait(false);
         }
-
-        return entity;
+        catch (DbUpdateException ex) when (ex.IsUniqueConstraintViolation())
+        {
+            DetachLocal(entity);
+            return await GetFromLocalAsync(id, cancellationToken).ConfigureAwait(true);
+        }
     }
 }

@@ -11,7 +11,7 @@ public class GameInventaryProfileModel : IMapFromReverse<GameInventaryProfileDto
     /// <summary>
     /// Is it required to have shirts for play.
     /// </summary>
-    public bool ShirtsRequired { get; set; }
+    public bool? ShirtsRequired { get; set; }
 
     /// <summary>
     /// How many shirts required for game.

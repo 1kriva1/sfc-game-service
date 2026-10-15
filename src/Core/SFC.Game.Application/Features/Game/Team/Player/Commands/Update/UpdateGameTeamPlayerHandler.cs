@@ -4,7 +4,7 @@ using MediatR;
 
 using SFC.Game.Application.Common.Constants;
 using SFC.Game.Application.Common.Exceptions;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.Player;
 using SFC.Game.Domain.Entities.Game.Team.Player;
 using SFC.Game.Domain.Events.Game.Team.Player;
 

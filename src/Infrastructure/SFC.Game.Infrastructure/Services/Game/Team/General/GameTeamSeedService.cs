@@ -6,7 +6,7 @@ using SFC.Game.Application.Interfaces.Common;
 using SFC.Game.Application.Interfaces.Game.Team.General;
 using SFC.Game.Application.Interfaces.Metadata;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Game.General;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Enums.Game;
 using SFC.Game.Messages.Events.Game.Team.General;
@@ -35,6 +35,8 @@ public class GameTeamSeedService(
         (1, GameTeamStatusEnum.InGame, 20, GameTeamIndex.A),
         (1, GameTeamStatusEnum.InGame, 21, GameTeamIndex.B),
         (1, GameTeamStatusEnum.OutOfGame, 22, null),
+        (1, GameTeamStatusEnum.OutOfGame, 1, null),
+        (1, GameTeamStatusEnum.OutOfGame, 2, null),
         (2, GameTeamStatusEnum.InGame, 23, GameTeamIndex.A),
         (2, GameTeamStatusEnum.OutOfGame, 24, null),
         (3, GameTeamStatusEnum.OutOfGame, 25, null),

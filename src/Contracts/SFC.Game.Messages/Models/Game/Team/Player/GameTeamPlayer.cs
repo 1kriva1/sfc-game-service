@@ -7,13 +7,9 @@ public class GameTeamPlayer : Auditable
 
     public long GameTeamId { get; set; }
 
-    public long GameId { get; set; }
+    public long? GamePlayerId { get; set; }
 
-    public long TeamId { get; set; }
-
-    public long PlayerId { get; set; }
-
-    public int StatusId { get; set; }
+    public long? TeamPlayerId { get; set; }
 
     public Guid UserId { get; set; }
 }

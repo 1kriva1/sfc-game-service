@@ -35,7 +35,6 @@ using SFC.Game.Infrastructure.Services.Player;
 using SFC.Game.Infrastructure.Services.Reference;
 using SFC.Game.Infrastructure.Services.Team.General;
 using SFC.Game.Infrastructure.Services.Team.Player;
-using SFC.Scheme.Infrastructure.Extensions;
 
 namespace SFC.Game.Infrastructure;
 public static class InfrastructureRegistration

@@ -45,4 +45,8 @@ public class CacheRepository<TEntity, TContext, TId>(Repository<TEntity, TContex
     public Task<PagedList<TEntity>> FindAsync(FindParameters<TEntity> parameters) => _repository.FindAsync(parameters);
 
     public Task<TEntity[]> AddRangeAsync(params TEntity[] entities) => _repository.AddRangeAsync(entities);
+
+    public Task DeleteRangeAsync(params TEntity[] entities) => _repository.DeleteRangeAsync(entities);
+
+    public void DetachAddedGraph(TEntity entity) => _repository.DetachAddedGraph(entity);
 }

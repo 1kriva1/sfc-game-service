@@ -99,6 +99,9 @@ public static class MassTransitExtensions
         // "sfc.game.team.player.updated"
         configure.AddExchange<GameTeamPlayerUpdated>(exchangesSettings.Game.Value.Domain.Team.Player.Events.Updated);
 
+        // "sfc.game.team.player.deleted"
+        configure.AddExchange<GameTeamPlayerDeleted>(exchangesSettings.Game.Value.Domain.Team.Player.Events.Deleted);
+
         if (environment.IsDevelopment())
         {
             // "sfc.game.games.seed"

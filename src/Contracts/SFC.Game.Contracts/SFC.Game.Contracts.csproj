@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>SFC.Game.Contracts</PackageId>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Authors>Andrii Kryvoruk</Authors>
     <Company>SFC</Company>
     <Product>SFC</Product>

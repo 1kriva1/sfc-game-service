@@ -16,12 +16,14 @@ public class TeamDbContext(
     AuditableEntitySaveChangesInterceptor auditableInterceptor,
     DataEntitySaveChangesInterceptor dataEntityInterceptor,
     UserEntitySaveChangesInterceptor userEntityInterceptor,
+    PlayerEntitySaveChangesInterceptor playerEntityInterceptor,
     DispatchDomainEventsSaveChangesInterceptor eventsInterceptor)
     : BaseDbContext<TeamDbContext>(options, eventsInterceptor), ITeamDbContext
 {
     private readonly AuditableEntitySaveChangesInterceptor _auditableInterceptor = auditableInterceptor;
     private readonly DataEntitySaveChangesInterceptor _dataEntityInterceptor = dataEntityInterceptor;
     private readonly UserEntitySaveChangesInterceptor _userEntityInterceptor = userEntityInterceptor;
+    private readonly PlayerEntitySaveChangesInterceptor _playerEntityInterceptor = playerEntityInterceptor;
 
     #region General
 
@@ -75,6 +77,7 @@ public class TeamDbContext(
         optionsBuilder.AddInterceptors(_auditableInterceptor);
         optionsBuilder.AddInterceptors(_dataEntityInterceptor);
         optionsBuilder.AddInterceptors(_userEntityInterceptor);
+        optionsBuilder.AddInterceptors(_playerEntityInterceptor);
         base.OnConfiguring(optionsBuilder);
     }
 

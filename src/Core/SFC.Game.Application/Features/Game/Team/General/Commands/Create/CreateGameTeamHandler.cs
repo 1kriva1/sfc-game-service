@@ -2,7 +2,9 @@
 
 using MediatR;
 
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Common.Constants;
+using SFC.Game.Application.Common.Exceptions;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Events.Game.Team.General;
 
@@ -24,6 +26,10 @@ public class CreateGameTeamHandler(
         await _gameTeamRepository.AddAsync(gameTeam)
                                  .ConfigureAwait(true);
 
-        return _mapper.Map<CreateGameTeamViewModel>(gameTeam);
+        GameTeam result = await _gameTeamRepository
+            .GetByIdAsync(gameTeam.GameId, gameTeam.TeamId, [GameTeamIncludeOptions.All])
+            .ConfigureAwait(true) ?? throw new NotFoundException(Localization.GameTeamNotFound);
+
+        return _mapper.Map<CreateGameTeamViewModel>(result);
     }
 }

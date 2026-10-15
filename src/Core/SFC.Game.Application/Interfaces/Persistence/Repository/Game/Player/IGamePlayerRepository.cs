@@ -16,6 +16,8 @@ public interface IGamePlayerRepository : IRepository<GamePlayer, IGameDbContext,
 
     Task<GamePlayer?> GetByIdAsync(long gameId, long playerId, IEnumerable<string>? includes);
 
+    Task<GamePlayer?> GetByIdAsync(long gameId, long playerId, GamePlayerIncludeOptions[] options);
+
     Task<PagedList<GamePlayer>> FindAsync(FindParameters<GamePlayer> parameters, IEnumerable<string>? includes);
 
     Task<IReadOnlyList<GamePlayer>> ListAllAsync(long gameId);

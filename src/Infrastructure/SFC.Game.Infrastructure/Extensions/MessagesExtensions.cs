@@ -61,7 +61,8 @@ public static class MessagesExtensions
         {
             GameStatuses = mapper.Map<IEnumerable<SchemeDataValue>>(model.GameStatuses),
             GameTeamStatuses = mapper.Map<IEnumerable<SchemeDataValue>>(model.GameTeamStatuses),
-            GameTeamIndexes = mapper.Map<IEnumerable<SchemeDataValue>>(model.GameTeamIndexes)
+            GameTeamIndexes = mapper.Map<IEnumerable<SchemeDataValue>>(model.GameTeamIndexes),
+            GamePlayerStatuses = mapper.Map<IEnumerable<SchemeDataValue>>(model.GamePlayerStatuses),
         };
 
         return message;

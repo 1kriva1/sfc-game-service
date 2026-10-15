@@ -7,10 +7,4 @@ public class CreateGamePlayerCommand : Request<CreateGamePlayerViewModel>
     public override RequestId RequestId { get => RequestId.CreateGamePlayer; }
 
     public required CreateGamePlayerDto GamePlayer { get; set; }
-
-    public CreateGamePlayerCommand SetGameId(long gameId)
-    {
-        GamePlayer.GameId = gameId;
-        return this;
-    }
 }

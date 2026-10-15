@@ -3,20 +3,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
+using SFC.Game.Application.Interfaces.Persistence.Repository.Team.General;
 using SFC.Game.Domain.Entities.Team.Player;
 using SFC.Game.Infrastructure.Persistence.Extensions.Include.Player;
 
 namespace SFC.Game.Infrastructure.Persistence.Extensions.Include.Team;
-
-[Flags]
-public enum TeamIncludeOptions
-{
-    None = 0,
-    Profile = 1 << 0,
-    TeamPlayers = 1 << 1,
-    TeamPlayersWithPlayer = 1 << 2,
-    TeamPlayersWithPlayerProfile = 1 << 3,
-}
 
 public static class TeamIncludeExtensions
 {
@@ -45,14 +36,16 @@ public static class TeamIncludeExtensions
         return query;
     }
 
-    public static IQueryable<TeamEntity> IncludeTeam(this IQueryable<TeamEntity> query, TeamIncludeOptions[] options)
+    public static IQueryable<TeamEntity> IncludeTeam(this IQueryable<TeamEntity> query, params TeamIncludeOptions[] options)
     {
-        foreach (TeamIncludeOptions item in options)
+        TeamIncludeOptions merged = TeamIncludeOptions.None;
+
+        foreach (TeamIncludeOptions option in options)
         {
-            query.IncludeTeam(item);
+            merged |= option;
         }
 
-        return query;
+        return query.IncludeTeam(merged);
     }
 
     public static IQueryable<TeamEntity> IncludeTeam(this IQueryable<TeamEntity> query, IEnumerable<string>? includes, TeamIncludeOptions defaultWhenEmpty = TeamIncludeOptions.None)
