@@ -22,4 +22,6 @@ public class TeamReference(
 
     protected override Task<TeamEntity> AddLocalAsync(TeamEntity entity, CancellationToken cancellationToken = default)
         => _teamRepository.AddAsync(entity);
+
+    protected override void DetachLocal(TeamEntity entity) => _teamRepository.DetachAddedGraph(entity);
 }

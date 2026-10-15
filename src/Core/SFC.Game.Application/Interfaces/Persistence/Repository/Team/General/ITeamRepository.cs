@@ -8,5 +8,7 @@ public interface ITeamRepository : IRepository<TeamEntity, ITeamDbContext, long>
 
     Task<bool> AnyAsync(long id, Guid userId);
 
+    Task<TeamEntity?> GetByIdAsync(long id, TeamIncludeOptions[] options);
+
     Task<TeamEntity[]> AddRangeIfNotExistsAsync(params TeamEntity[] entities);
 }

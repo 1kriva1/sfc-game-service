@@ -39,7 +39,15 @@ public class GamePlayerRepository(GameDbContext context)
     {
         return Context.GamePlayers
                       .AsNoTracking()
-                      .IncludeGamePlayer(includes, GamePlayerIncludeOptions.None)
+                      .IncludeGamePlayer(includes)
+                      .FirstOrDefaultAsync(item => item.GameId == gameId && item.PlayerId == playerId);
+    }
+
+    public Task<GamePlayer?> GetByIdAsync(long gameId, long playerId, GamePlayerIncludeOptions[] options)
+    {
+        return Context.GamePlayers
+                      .AsNoTracking()
+                      .IncludeGamePlayer(options)
                       .FirstOrDefaultAsync(item => item.GameId == gameId && item.PlayerId == playerId);
     }
 

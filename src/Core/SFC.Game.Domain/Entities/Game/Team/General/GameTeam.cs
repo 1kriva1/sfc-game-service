@@ -17,6 +17,8 @@ public class GameTeam : BaseAuditableEntity<long>, ITeamEntity, IUserEntity
 
     public Guid UserId { get; set; }
 
+    public GameEntity Game { get; set; } = default!;
+
     public TeamEntity Team { get; set; } = default!;
 
     public ICollection<GameTeamPlayer> Players { get; } = [];

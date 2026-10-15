@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common;
+using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common;
 using SFC.Game.Api.Infrastructure.Models.Player;
 using SFC.Game.Application.Common.Mappings.Interfaces;
 using SFC.Game.Application.Features.Game.Player.Common.Dto;
@@ -28,9 +28,9 @@ public class GamePlayerModel : IMapFrom<GamePlayerDto>
     public PlayerModel? Player { get; set; }
 
     /// <summary>
-    /// Game Team related to this game player.
+    /// Game Team Player related to this game player.
     /// </summary>
-    public GameTeamModel? GameTeam { get; set; }
+    public GameTeamPlayerModel? GameTeamPlayer { get; set; }
 
 
     public void Mapping(Profile profile) => profile.CreateMap<GamePlayerDto, GamePlayerModel>()

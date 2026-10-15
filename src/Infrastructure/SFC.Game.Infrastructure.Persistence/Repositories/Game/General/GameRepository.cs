@@ -23,6 +23,14 @@ public class GameRepository(GameDbContext context)
                       .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public Task<GameEntity?> GetByIdAsync(long id, GameIncludeOptions[] options)
+    {
+        return Context.Games
+                      .AsNoTracking()
+                      .IncludeGame(options)
+                      .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
     public async Task<IEnumerable<GameEntity>> GetByUserIdsAsync(IEnumerable<Guid> userIds)
     {
         return await Context.Games

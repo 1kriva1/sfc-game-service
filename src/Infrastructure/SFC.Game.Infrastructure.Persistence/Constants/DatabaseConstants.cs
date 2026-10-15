@@ -26,4 +26,6 @@ public static class DatabaseConstants
     public const string TeamForeignKey = "TeamId";
 
     public const string GameForeignKey = "GameId";
+
+    public static readonly int[] UniqueViolationErrorNumbers = [2627, 2601];
 }

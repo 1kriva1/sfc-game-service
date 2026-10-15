@@ -4,7 +4,7 @@ using MediatR;
 
 using SFC.Game.Application.Common.Constants;
 using SFC.Game.Application.Common.Exceptions;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.Player;
 using SFC.Game.Domain.Entities.Game.Team.Player;
 using SFC.Game.Domain.Events.Game.Team.Player;
 
@@ -34,7 +34,7 @@ public class UpdatesGameTeamPlayerHandler(IMapper mapper, IGameTeamPlayerReposit
         IEnumerable<GameTeamPlayer> updatedGameTeamPlayers = request.GameTeamPlayers
             .Join(existingGameTeamPlayerss,
                 dto => dto.PlayerId,
-                entity => entity.PlayerId,
+                entity => entity.GamePlayerId ?? entity.TeamPlayerId,
                 (dto, entity) => _mapper.Map(dto, entity));
 
         foreach (GameTeamPlayer updatedGameTeamPlayer in updatedGameTeamPlayers)

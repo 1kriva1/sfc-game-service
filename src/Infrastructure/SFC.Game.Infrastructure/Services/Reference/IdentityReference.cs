@@ -23,4 +23,6 @@ public class IdentityReference(
 
     protected override Task<User> AddLocalAsync(User entity, CancellationToken cancellationToken = default)
         => _userRepository.AddAsync(entity);
+
+    protected override void DetachLocal(User entity) => _userRepository.DetachAddedGraph(entity);
 }

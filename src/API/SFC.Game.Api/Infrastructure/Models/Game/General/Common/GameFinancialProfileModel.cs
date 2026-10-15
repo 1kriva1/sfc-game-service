@@ -11,7 +11,7 @@ public class GameFinancialProfileModel : IMapFromReverse<GameFinancialProfileDto
     /// <summary>
     /// Game play only on free field and without any extra expansions.
     /// </summary>
-    public bool FreeGame { get; set; }
+    public bool? FreeGame { get; set; }
 
     /// <summary>
     /// How many need to pay for game.

@@ -23,4 +23,10 @@ public class GameTeamPlayerService(IMapper mapper, IPublishEndpoint publisher) :
         GameTeamPlayerUpdated @event = _mapper.Map<GameTeamPlayerUpdated>(gameTeamPlayer);
         return _publisher.Publish(@event, cancellationToken);
     }
+
+    public Task NotifyGameTeamPlayerDeletedAsync(GameTeamPlayer gameTeamPlayer, CancellationToken cancellationToken = default)
+    {
+        GameTeamPlayerDeleted @event = _mapper.Map<GameTeamPlayerDeleted>(gameTeamPlayer);
+        return _publisher.Publish(@event, cancellationToken);
+    }
 }

@@ -11,7 +11,7 @@ using SFC.Game.Application.Features.Game.Player.Queries.Find.Extensions;
 using SFC.Game.Application.Features.Game.Team.General.Common.Dto;
 using SFC.Game.Application.Features.Game.Team.General.Queries.Find.Extensions;
 using SFC.Game.Application.Interfaces.Common;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.General;
 
 namespace SFC.Game.Application.Features.Game.Team.General.Queries.Find;

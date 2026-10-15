@@ -10,7 +10,7 @@ using SFC.Game.Application.Features.Common.Models.Find.Sorting;
 using SFC.Game.Application.Features.Game.Team.Player.Common.Dto;
 using SFC.Game.Application.Features.Game.Team.Player.Queries.Find.Extensions;
 using SFC.Game.Application.Interfaces.Common;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.Player;
 using SFC.Game.Domain.Entities.Game.Team.Player;
 
 namespace SFC.Game.Application.Features.Game.Team.Player.Queries.Find;

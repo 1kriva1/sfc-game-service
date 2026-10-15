@@ -5,9 +5,14 @@ using MassTransit;
 using SFC.Game.Application.Interfaces.Common;
 using SFC.Game.Application.Interfaces.Game.Team.Player;
 using SFC.Game.Application.Interfaces.Metadata;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Player;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.Player;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Team.Player;
+using SFC.Game.Domain.Entities.Game.Player;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.Player;
+using SFC.Game.Domain.Entities.Team.Player;
 using SFC.Game.Domain.Enums.Team;
 using SFC.Game.Messages.Events.Game.Team.Player;
 
@@ -19,7 +24,9 @@ public class GameTeamPlayerSeedService(
     IDateTimeService dateTimeService,
     IMetadataService metadataService,
     IGameTeamPlayerRepository gameTeamPlayerRepository,
-    IGameTeamRepository gameTeamRepository) : IGameTeamPlayerSeedService
+    IGameTeamRepository gameTeamRepository,
+    IGamePlayerRepository gamePlayerRepository,
+    ITeamPlayerRepository teamPlayerRepository) : IGameTeamPlayerSeedService
 {
     private readonly IMapper _mapper = mapper;
     private readonly IPublishEndpoint _publisher = publisher;
@@ -27,15 +34,21 @@ public class GameTeamPlayerSeedService(
     private readonly IMetadataService _metadataService = metadataService;
     private readonly IGameTeamPlayerRepository _gameTeamPlayerRepository = gameTeamPlayerRepository;
     private readonly IGameTeamRepository _gameTeamRepository = gameTeamRepository;
+    private readonly IGamePlayerRepository _gamePlayerRepository = gamePlayerRepository;
+    private readonly ITeamPlayerRepository _teamPlayerRepository = teamPlayerRepository;
 
     #region Stub data
 
-    private static readonly IEnumerable<(long, long, long, TeamPlayerStatus)> GAME_TEAM_PLAYERS =
+    private static readonly IEnumerable<(long, long, long)> GAME_TEAM_PLAYERS =
     [
-        (1, 20, 20, TeamPlayerStatus.Active),
-        (1, 21, 21, TeamPlayerStatus.Active),
-        (2, 23, 22, TeamPlayerStatus.Active),
-        (4, 29, 25, TeamPlayerStatus.Active)
+        (1, 20, 20),
+        (1, 20, 21),
+        (1, 20, 22),
+        (1, 1, 23),
+        (1, 1, 24),
+        (1, 1, 25),
+        (2, 23, 23),
+        (2, 24, 24)
     ];
 
     #endregion Stub data
@@ -66,18 +79,22 @@ public class GameTeamPlayerSeedService(
     {
         List<GameTeamPlayer> result = [];
 
-        foreach ((long, long, long, TeamPlayerStatus) item in GAME_TEAM_PLAYERS)
+        foreach ((long, long, long) item in GAME_TEAM_PLAYERS)
         {
-            GameTeamPlayer part = await BuildGameTeamPlayerAsync(item.Item1, item.Item2, item.Item3, item.Item4).ConfigureAwait(true);
+            GameTeamPlayer part = await BuildGameTeamPlayerAsync(item.Item1, item.Item2, item.Item3).ConfigureAwait(true);
             result.Add(part);
         }
 
         return result;
     }
 
-    private async Task<GameTeamPlayer> BuildGameTeamPlayerAsync(long gameId, long teamId, long playerId, TeamPlayerStatus status)
+    private async Task<GameTeamPlayer> BuildGameTeamPlayerAsync(long gameId, long teamId, long playerId)
     {
         GameTeam? gameTeam = await _gameTeamRepository.GetByIdAsync(gameId, teamId).ConfigureAwait(true);
+
+        GamePlayer? gamePlayer = await _gamePlayerRepository.GetByIdAsync(gameId, playerId).ConfigureAwait(true);
+
+        TeamPlayer? teamPlayer = await _teamPlayerRepository.GetByIdAsync(teamId, playerId).ConfigureAwait(true);
 
         Guid userId = gameTeam!.UserId;
 
@@ -91,8 +108,8 @@ public class GameTeamPlayerSeedService(
             LastModifiedDate = createdDate,
             GameTeamId = gameTeam!.Id,
             UserId = userId,
-            PlayerId = playerId,
-            StatusId = status
+            GamePlayerId = gamePlayer?.Id,
+            TeamPlayerId = teamPlayer?.Id
         };
     }
 

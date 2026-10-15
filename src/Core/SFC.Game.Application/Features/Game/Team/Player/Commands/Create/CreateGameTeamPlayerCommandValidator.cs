@@ -5,7 +5,7 @@ using SFC.Game.Application.Common.Exceptions;
 using SFC.Game.Application.Common.Extensions;
 using SFC.Game.Application.Features.Game.Team.Player.Commands.Updates;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Game.General;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.Player;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Player;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Team.General;
 

@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SFC.Team.Contracts" Version="0.0.4" />
-    <PackageReference Include="SFC.Team.Messages" Version="0.0.21" />
+    <PackageReference Include="SFC.Team.Contracts" Version="0.0.5" />
+    <PackageReference Include="SFC.Team.Messages" Version="0.0.22" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SFC.Scheme.Messages" Version="0.0.4" />
+    <PackageReference Include="SFC.Scheme.Messages" Version="0.0.5" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,14 +3,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace SFC.Game.Infrastructure.Persistence.Extensions.Include.Player;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Player;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Team.Player;
 
-[Flags]
-public enum PlayerIncludeOptions
-{
-    None = 0,
-    Profile = 1 << 0,
-}
+namespace SFC.Game.Infrastructure.Persistence.Extensions.Include.Player;
 
 public static class PlayerIncludeExtensions
 {
@@ -27,14 +23,16 @@ public static class PlayerIncludeExtensions
         return query;
     }
 
-    public static IQueryable<PlayerEntity> IncludePlayer(this IQueryable<PlayerEntity> query, PlayerIncludeOptions[] options)
+    public static IQueryable<PlayerEntity> IncludePlayer(this IQueryable<PlayerEntity> query, params PlayerIncludeOptions[] options)
     {
-        foreach (PlayerIncludeOptions item in options)
+        PlayerIncludeOptions merged = PlayerIncludeOptions.None;
+
+        foreach (PlayerIncludeOptions option in options)
         {
-            query.IncludePlayer(item);
+            merged |= option;
         }
 
-        return query;
+        return query.IncludePlayer(merged);
     }
 
     public static IQueryable<PlayerEntity> IncludePlayer(this IQueryable<PlayerEntity> query, IEnumerable<string>? includes, PlayerIncludeOptions defaultWhenEmpty = PlayerIncludeOptions.None)

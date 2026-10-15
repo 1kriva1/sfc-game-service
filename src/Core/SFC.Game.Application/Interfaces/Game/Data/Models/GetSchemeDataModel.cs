@@ -8,4 +8,6 @@ public record GetSchemeDataModel
     public IEnumerable<GameTeamStatus> GameTeamStatuses { get; init; } = [];
 
     public IEnumerable<GameTeamIndex> GameTeamIndexes { get; init; } = [];
+
+    public IEnumerable<GamePlayerStatus> GamePlayerStatuses { get; init; } = [];
 }

@@ -18,6 +18,8 @@ public interface IGameRepository : IRepository<GameEntity, IGameDbContext, long>
 
     Task<GameEntity?> GetByIdAsync(long id, IEnumerable<string>? includes);
 
+    Task<GameEntity?> GetByIdAsync(long id, GameIncludeOptions[] options);
+
     Task<PagedList<GameEntity>> FindAsync(FindParameters<GameEntity> parameters, IEnumerable<string>? includes);
 
     Task<GameEntity[]> AddRangeIfNotExistsAsync(params GameEntity[] entities);

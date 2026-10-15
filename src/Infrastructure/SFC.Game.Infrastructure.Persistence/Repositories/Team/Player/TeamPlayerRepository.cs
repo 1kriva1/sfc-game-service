@@ -32,6 +32,14 @@ public class TeamPlayerRepository(TeamDbContext context)
         return Context.TeamPlayers.FirstOrDefaultAsync(item => item.TeamId == teamId && item.Player.Id == playerId);
     }
 
+    public async Task<IReadOnlyList<TeamPlayer>> GetByIdsAsync(IEnumerable<long> teamIds, IEnumerable<long> playerIds)
+    {
+        return await Context.TeamPlayers
+                            .Where(item => teamIds.Contains(item.TeamId) && playerIds.Contains(item.PlayerId))
+                            .ToListAsync()
+                            .ConfigureAwait(true);
+    }
+
     public Task<bool> AnyAsync(long teamId, long playerId)
     {
         return Context.TeamPlayers.AnyAsync(item => item.TeamId == teamId && item.Player.Id == playerId);

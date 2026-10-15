@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
+using SFC.Game.Domain.Entities.Game.Player;
 using SFC.Game.Domain.Entities.Game.Team.General;
 using SFC.Game.Domain.Entities.Game.Team.Player;
 using SFC.Game.Domain.Entities.Team.Player;
@@ -8,20 +10,6 @@ using SFC.Game.Infrastructure.Persistence.Extensions.Include.Player;
 using SFC.Game.Infrastructure.Persistence.Extensions.Include.Team;
 
 namespace SFC.Game.Infrastructure.Persistence.Extensions.Include.Game;
-
-[Flags]
-public enum GameTeamIncludeOptions
-{
-    None = 0,
-    Team = 1 << 1,
-    TeamProfile = 1 << 2,
-    TeamWithTeamPlayers = 1 << 3,
-    TeamWithTeamPlayersWithPlayer = 1 << 4,
-    TeamWithTeamPlayersWithPlayerProfile = 1 << 5,
-    GameTeamPlayers = 1 << 6,
-    GameTeamPlayersWithPlayer = 1 << 7,
-    GameTeamPlayersWithPlayerProfile = 1 << 8
-}
 
 public static class GameTeamIncludeExtensions
 {
@@ -33,8 +21,12 @@ public static class GameTeamIncludeExtensions
         ["Team.TeamPlayers.Player"] = GameTeamIncludeOptions.TeamWithTeamPlayersWithPlayer,
         ["Team.TeamPlayers.PlayerProfile"] = GameTeamIncludeOptions.TeamWithTeamPlayersWithPlayerProfile,
         ["GameTeamPlayers"] = GameTeamIncludeOptions.GameTeamPlayers,
-        ["GameTeamPlayers.Player"] = GameTeamIncludeOptions.GameTeamPlayersWithPlayer,
-        ["GameTeamPlayers.PlayerProfile"] = GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile
+        ["GameTeamPlayers.GamePlayer"] = GameTeamIncludeOptions.GameTeamPlayersWithGamePlayer,
+        ["GameTeamPlayers.GamePlayer.Player"] = GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayer,
+        ["GameTeamPlayers.GamePlayer.PlayerProfile"] = GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile,
+        ["GameTeamPlayers.TeamPlayer"] = GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayer,
+        ["GameTeamPlayers.TeamPlayer.Player"] = GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayer,
+        ["GameTeamPlayers.TeamPlayer.PlayerProfile"] = GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile
     };
 
     public static IQueryable<GameTeam> IncludeGameTeam(this IQueryable<GameTeam> query, GameTeamIncludeOptions options)
@@ -58,23 +50,37 @@ public static class GameTeamIncludeExtensions
         if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayers))
             query = query.IncludeGameTeamPlayersRoot();
 
-        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithPlayer))
-            query = query.IncludeGameTeamPlayersRoot().ThenInclude(x => x.Player);
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithGamePlayer))
+            query = query.IncludeGameTeamPlayersGamePlayerRoot();
 
-        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithPlayerProfile))
-            query = query.IncludePlayerDetails(q => q.IncludeGameTeamPlayersRoot().ThenInclude(x => x.Player));
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayer))
+            query = query.IncludeGameTeamPlayersGamePlayerPlayerRoot();
+
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithGamePlayerWithPlayerProfile))
+            query = query.IncludePlayerDetails(q => q.IncludeGameTeamPlayersGamePlayerPlayerRoot()!);
+
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayer))
+            query = query.IncludeGameTeamPlayersTeamPlayerRoot();
+
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayer))
+            query = query.IncludeGameTeamPlayersTeamPlayerPlayerRoot();
+
+        if (options.HasFlag(GameTeamIncludeOptions.GameTeamPlayersWithTeamPlayerWithPlayerProfile))
+            query = query.IncludePlayerDetails(q => q.IncludeGameTeamPlayersTeamPlayerPlayerRoot()!);
 
         return query;
     }
 
     public static IQueryable<GameTeam> IncludeGameTeam(this IQueryable<GameTeam> query, params GameTeamIncludeOptions[] options)
     {
+        GameTeamIncludeOptions merged = GameTeamIncludeOptions.None;
+
         foreach (GameTeamIncludeOptions option in options)
         {
-            query.IncludeGameTeam(option);
+            merged |= option;
         }
 
-        return query;
+        return query.IncludeGameTeam(merged);
     }
 
     public static IQueryable<GameTeam> IncludeGameTeam(this IQueryable<GameTeam> query, IEnumerable<string>? includes, GameTeamIncludeOptions defaultWhenEmpty = GameTeamIncludeOptions.None)
@@ -93,6 +99,18 @@ public static class GameTeamIncludeExtensions
 
     private static IIncludableQueryable<GameTeam, ICollection<GameTeamPlayer>> IncludeGameTeamPlayersRoot(this IQueryable<GameTeam> gameTeams)
         => gameTeams.Include(x => x.Players);
+
+    private static IIncludableQueryable<GameTeam, GamePlayer?> IncludeGameTeamPlayersGamePlayerRoot(this IQueryable<GameTeam> gameTeams)
+        => gameTeams.IncludeGameTeamPlayersRoot().ThenInclude(x => x.GamePlayer);
+
+    private static IIncludableQueryable<GameTeam, PlayerEntity?> IncludeGameTeamPlayersGamePlayerPlayerRoot(this IQueryable<GameTeam> gameTeams)
+        => gameTeams.IncludeGameTeamPlayersGamePlayerRoot().ThenInclude(x => x!.Player);
+
+    private static IIncludableQueryable<GameTeam, TeamPlayer?> IncludeGameTeamPlayersTeamPlayerRoot(this IQueryable<GameTeam> gameTeams)
+        => gameTeams.IncludeGameTeamPlayersRoot().ThenInclude(x => x.TeamPlayer);
+
+    private static IIncludableQueryable<GameTeam, PlayerEntity?> IncludeGameTeamPlayersTeamPlayerPlayerRoot(this IQueryable<GameTeam> gameTeams)
+       => gameTeams.IncludeGameTeamPlayersTeamPlayerRoot().ThenInclude(x => x!.Player);
 
     #endregion Private
 }

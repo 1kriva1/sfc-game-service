@@ -5,7 +5,7 @@ using SFC.Game.Application.Common.Exceptions;
 using SFC.Game.Application.Common.Extensions;
 using SFC.Game.Application.Features.Game.General.Queries.Find.Dto.Filters;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Game.General;
-using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team;
+using SFC.Game.Application.Interfaces.Persistence.Repository.Game.Team.General;
 using SFC.Game.Application.Interfaces.Persistence.Repository.Team.General;
 using SFC.Game.Domain.Enums.Game;
 
@@ -49,9 +49,9 @@ public class CreateGameTeamCommandValidator : AbstractValidator<CreateGameTeamCo
             .MustAsync(async (request, cancellation) => await _gameRepository.AnyAsync(request.GameTeam.GameId).ConfigureAwait(true))
             .WithException(new NotFoundException(Localization.GameNotFound));
 
-        RuleFor(value => value)
-            .MustAsync(async (request, cancellation) => await _teamRepository.AnyAsync(request.GameTeam.TeamId).ConfigureAwait(true))
-            .WithException(new NotFoundException(Localization.TeamNotFound));
+        //RuleFor(value => value)
+        //    .MustAsync(async (request, cancellation) => await _teamRepository.AnyAsync(request.GameTeam.TeamId).ConfigureAwait(true))
+        //    .WithException(new NotFoundException(Localization.TeamNotFound));
 
         RuleFor(value => value)
             .MustAsync(async (request, cancellation) => !await _gameTeamRepository.AnyAsync(request.GameTeam.GameId, request.GameTeam.TeamId).ConfigureAwait(false))

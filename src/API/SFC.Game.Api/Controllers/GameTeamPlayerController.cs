@@ -6,6 +6,7 @@ using SFC.Game.Api.Infrastructure.Models.Base;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.General.Find;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates;
+using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Get;
 using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update;
@@ -15,6 +16,8 @@ using SFC.Game.Application.Features.Common.Base;
 using SFC.Game.Application.Features.Common.Extensions;
 using SFC.Game.Application.Features.Game.Team.Player.Commands.Create;
 using SFC.Game.Application.Features.Game.Team.Player.Commands.Creates;
+using SFC.Game.Application.Features.Game.Team.Player.Commands.Delete;
+using SFC.Game.Application.Features.Game.Team.Player.Commands.Deletes;
 using SFC.Game.Application.Features.Game.Team.Player.Commands.Update;
 using SFC.Game.Application.Features.Game.Team.Player.Commands.Updates;
 using SFC.Game.Application.Features.Game.Team.Player.Queries.Find;
@@ -156,6 +159,73 @@ public class GameTeamPlayerController : ApiControllerBase
         [FromRoute] long id, [FromRoute] long teamId, [FromBody] UpdatesGameTeamPlayerRequest request)
     {
         UpdatesGameTeamPlayerCommand command = Mapper.Map<UpdatesGameTeamPlayerCommand>(request)
+                                                     .SetGameId(id)
+                                                     .SetTeamId(teamId);
+
+        await Mediator.Send(command)
+                      .ConfigureAwait(false);
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Delete game team player.
+    /// </summary>
+    /// <param name="id">Game Id.</param>
+    /// <param name="teamId">Team Id.</param>
+    /// <param name="playerId">Player Id.</param>
+    /// <returns>No content</returns>
+    /// <response code="204">Returns no content if game team player **successfully** deleted.</response>
+    /// <response code="401">Returns when **failed** authentication.</response>
+    /// <response code="403">Returns when **failed** authorization.</response>
+    /// <response code="404">Returns when invite **not found**.</response>
+    [HttpDelete("Players/{playerId}")]
+    [Authorize(Policy.OwnGame)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+    public async Task<ActionResult> DeleteGameTeamPlayerAsync(
+        [FromRoute] long id, [FromRoute] long teamId, [FromRoute] long playerId)
+    {
+        DeleteGameTeamPlayerCommand command = new DeleteGameTeamPlayerCommand()
+                                                    .SetGameId(id)
+                                                    .SetTeamId(teamId)
+                                                    .SetPlayerId(playerId);
+
+        await Mediator.Send(command)
+                      .ConfigureAwait(false);
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Deletes game team player.
+    /// </summary>
+    /// <param name="id">Game Id.</param>
+    /// <param name="teamId">Team Id.</param>
+    /// <param name="request">Update game team players request.</param>
+    /// <returns>No content</returns>
+    /// <response code="204">Returns no content if game team players **successfully** updated.</response>
+    /// <response code="400">Returns **validation** errors.</response>
+    /// <response code="401">Returns when **failed** authentication.</response>
+    /// <response code="403">Returns when **failed** authorization.</response>
+    /// <response code="404">Returns when invite **not found**.</response>
+    /// <response code="409">Returns when **flow validation** errors.</response>
+    [HttpDelete("Players")]
+    [Authorize(Policy.OwnGame)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
+    public async Task<ActionResult> DeletesGameTeamPlayerAsync(
+        [FromRoute] long id, [FromRoute] long teamId, [FromBody] DeletesGameTeamPlayerRequest request)
+    {
+        DeletesGameTeamPlayerCommand command = Mapper.Map<DeletesGameTeamPlayerCommand>(request)
                                                      .SetGameId(id)
                                                      .SetTeamId(teamId);
 

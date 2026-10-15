@@ -9,6 +9,11 @@ namespace SFC.Game.Api.Infrastructure.Models.Player.Find.Filters;
 public class PlayerFilterModel : IMapTo<PlayerFilterDto>
 {
     /// <summary>
+    /// Exclude player ids.
+    /// </summary>
+    public IEnumerable<int>? ExcludeIds { get; set; }
+
+    /// <summary>
     /// Profile filter model.
     /// </summary>
     public PlayerProfileFilterModel Profile { get; set; } = default!;

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-using SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common;
 using SFC.Game.Api.Infrastructure.Models.Team.General;
 using SFC.Game.Application.Common.Mappings.Interfaces;
 using SFC.Game.Application.Features.Game.Team.General.Common.Dto;
@@ -35,7 +34,7 @@ public class GameTeamModel : IMapFrom<GameTeamDto>
     /// <summary>
     /// Game Team related to this team.
     /// </summary>
-    public IEnumerable<GameTeamPlayerModel>? Players { get; set; }
+    public IEnumerable<GameTeamGameTeamPlayerModel>? Players { get; set; }
 
     public void Mapping(Profile profile) => profile.CreateMap<GameTeamDto, GameTeamModel>()
                                                    .ForMember(p => p.Status, d => d.MapFrom(z => z.StatusId));

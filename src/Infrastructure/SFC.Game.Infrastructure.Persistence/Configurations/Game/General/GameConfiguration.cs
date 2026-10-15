@@ -54,7 +54,7 @@ public class GameConfiguration : AuditableEntityConfiguration<GameEntity, long>
                .OnDelete(DeleteBehavior.ClientCascade);
 
         builder.HasMany(e => e.Teams)
-               .WithOne()
+               .WithOne(e => e.Game)
                .HasForeignKey(e => e.GameId)
                .OnDelete(DeleteBehavior.ClientCascade);
 

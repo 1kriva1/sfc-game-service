@@ -208,6 +208,34 @@
             <response code="404">Returns when invite **not found**.</response>
             <response code="409">Returns when **flow validation** errors.</response>
         </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.DeleteGameTeamPlayerAsync(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Delete game team player.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="playerId">Player Id.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game team player **successfully** deleted.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+        </member>
+        <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.DeletesGameTeamPlayerAsync(System.Int64,System.Int64,SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes.DeletesGameTeamPlayerRequest)">
+            <summary>
+            Deletes game team player.
+            </summary>
+            <param name="id">Game Id.</param>
+            <param name="teamId">Team Id.</param>
+            <param name="request">Update game team players request.</param>
+            <returns>No content</returns>
+            <response code="204">Returns no content if game team players **successfully** updated.</response>
+            <response code="400">Returns **validation** errors.</response>
+            <response code="401">Returns when **failed** authentication.</response>
+            <response code="403">Returns when **failed** authorization.</response>
+            <response code="404">Returns when invite **not found**.</response>
+            <response code="409">Returns when **flow validation** errors.</response>
+        </member>
         <member name="M:SFC.Game.Api.Controllers.GameTeamPlayerController.GetGameTeamPlayerAsync(System.Int64,System.Int64,System.Int64)">
             <summary>
             Return game team player model by unique identifier.
@@ -655,9 +683,9 @@
             Game Player related to this player.
             </summary>
         </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.GameTeam">
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Player.Common.GamePlayerModel.GameTeamPlayer">
             <summary>
-            Game Team related to this game player.
+            Game Team Player related to this game player.
             </summary>
         </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Player.Find.Filters.GetGamePlayersGamePlayerFilterModel">
@@ -693,6 +721,21 @@
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Find.GetGamePlayersResponse">
             <summary>
             **Get** game players response.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamGameTeamPlayerModel">
+            <summary>
+            Game Team Player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamGameTeamPlayerModel.Id">
+            <summary>
+            Unique identifier.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamGameTeamPlayerModel.Player">
+            <summary>
+            Game Team Player related to this player.
             </summary>
         </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Common.GameTeamModel">
@@ -785,6 +828,16 @@
             **Get** game teams response.
             </summary>
         </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse">
+            <summary>
+            **Get** game team response.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse.GameTeam">
+            <summary>
+            Game team model.
+            </summary>
+        </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Gets.GetsGameTeamResponse">
             <summary>
             **Get** all game teams response.
@@ -795,12 +848,27 @@
             Game Team models.
             </summary>
         </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse">
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel">
             <summary>
-            **Get** game team response.
+            **Update** game team model.
             </summary>
         </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Get.GetGameTeamResponse.GameTeam">
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Status">
+            <summary>
+            Status of game team.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Index">
+            <summary>
+            Index of game team.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest">
+            <summary>
+            **Update** game team request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest.GameTeam">
             <summary>
             Game team model.
             </summary>
@@ -835,31 +903,6 @@
             Game team models.
             </summary>
         </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel">
-            <summary>
-            **Update** game team model.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Status">
-            <summary>
-            Status of game team.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamModel.Index">
-            <summary>
-            Index of game team.
-            </summary>
-        </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest">
-            <summary>
-            **Update** game team request.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.General.Update.UpdateGameTeamRequest.GameTeam">
-            <summary>
-            Game team model.
-            </summary>
-        </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel">
             <summary>
             Game Team Player model.
@@ -870,39 +913,14 @@
             Unique identifier.
             </summary>
         </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.Status">
-            <summary>
-            Game Team Player status.
-            </summary>
-        </member>
         <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.Player">
             <summary>
             Game Team Player related to this player.
             </summary>
         </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerModel">
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Common.GameTeamPlayerModel.GameTeam">
             <summary>
-            **Creates** game team player model.
-            </summary>
-        </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest">
-            <summary>
-            **Creates** Game Team Player request.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest.GameTeamPlayers">
-            <summary>
-            Game Team Player models.
-            </summary>
-        </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse">
-            <summary>
-            **Creates** game team player response model.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse.GameTeamPlayers">
-            <summary>
-            Game team player models.
+            Game Team related to this game team player.
             </summary>
         </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Create.CreateGameTeamPlayerModel">
@@ -930,6 +948,51 @@
             Game team player model.
             </summary>
         </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerModel">
+            <summary>
+            **Creates** game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest">
+            <summary>
+            **Creates** Game Team Player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerRequest.GameTeamPlayers">
+            <summary>
+            Game Team Player models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse">
+            <summary>
+            **Creates** game team player response model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Creates.CreatesGameTeamPlayerResponse.GameTeamPlayers">
+            <summary>
+            Game team player models.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes.DeletesGameTeamPlayerModel">
+            <summary>
+            **Updates** game team player models.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes.DeletesGameTeamPlayerModel.Player">
+            <summary>
+            Player unique identifier.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes.DeletesGameTeamPlayerRequest">
+            <summary>
+            **Deletes** game team player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Deletes.DeletesGameTeamPlayerRequest.GameTeamPlayers">
+            <summary>
+            Game team player models.
+            </summary>
+        </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersFilterModel">
             <summary>
             Get game team players filter model.
@@ -950,9 +1013,9 @@
             Get game team players for game team filter model.
             </summary>
         </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersGameTeamPlayerFilterModel.Statuses">
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.Filters.GetGameTeamPlayersGameTeamPlayerFilterModel.ExcludeIds">
             <summary>
-            Statuses of game team player.
+            Exclude game team player ids.
             </summary>
         </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Find.GetGameTeamPlayersRequest">
@@ -971,6 +1034,26 @@
             </summary>
         </member>
         <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Get.GetGameTeamPlayerResponse.GameTeamPlayer">
+            <summary>
+            Game team player model.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel">
+            <summary>
+            **Update** game team player model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel.Status">
+            <summary>
+            Status of game team player.
+            </summary>
+        </member>
+        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest">
+            <summary>
+            **Update** game team player request.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest.GameTeamPlayer">
             <summary>
             Game team player model.
             </summary>
@@ -998,26 +1081,6 @@
         <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Updates.UpdatesGameTeamPlayerRequest.GameTeamPlayers">
             <summary>
             Game team player models.
-            </summary>
-        </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel">
-            <summary>
-            **Update** game team player model.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerModel.Status">
-            <summary>
-            Status of game team player.
-            </summary>
-        </member>
-        <member name="T:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest">
-            <summary>
-            **Update** game team player request.
-            </summary>
-        </member>
-        <member name="P:SFC.Game.Api.Infrastructure.Models.Game.Team.Player.Update.UpdateGameTeamPlayerRequest.GameTeamPlayer">
-            <summary>
-            Game team player model.
             </summary>
         </member>
         <member name="T:SFC.Game.Api.Infrastructure.Models.Pagination.PageLinksModel">
@@ -1113,6 +1176,11 @@
         <member name="T:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel">
             <summary>
             Get players filter model.
+            </summary>
+        </member>
+        <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel.ExcludeIds">
+            <summary>
+            Exclude player ids.
             </summary>
         </member>
         <member name="P:SFC.Game.Api.Infrastructure.Models.Player.Find.Filters.PlayerFilterModel.Profile">

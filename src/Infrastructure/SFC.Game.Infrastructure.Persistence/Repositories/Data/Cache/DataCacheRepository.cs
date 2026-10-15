@@ -7,7 +7,7 @@ using SFC.Game.Infrastructure.Persistence.Contexts;
 using SFC.Game.Infrastructure.Persistence.Repositories.Common.Data;
 using SFC.Game.Infrastructure.Persistence.Repositories.Data;
 
-namespace SFC.Scheme.Infrastructure.Persistence.Repositories.Data.Cache;
+namespace SFC.Game.Infrastructure.Persistence.Repositories.Data.Cache;
 
 public class DataCacheRepository<TEntity, TEnum>(DataRepository<TEntity, TEnum> repository, [FromKeyedServices(CacheInstance.Data)] ICache cache)
     : DataCacheRepository<TEntity, DataDbContext, TEnum>(repository, cache)

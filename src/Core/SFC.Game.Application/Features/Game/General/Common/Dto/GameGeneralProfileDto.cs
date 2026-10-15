@@ -15,7 +15,7 @@ public class GameGeneralProfileDto : IMapFrom<GameEntity>, IMapTo<GameGeneralPro
 
     public required GameAvailabilityDto Availability { get; set; }
 
-    public IEnumerable<string> Tags { get; set; } = [];
+    public IEnumerable<string>? Tags { get; set; }
 
     public void Mapping(Profile profile)
     {
