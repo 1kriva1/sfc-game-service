@@ -14,6 +14,11 @@ public class DataValueModel : IMapFrom<DataValueDto>
     public int Id { get; set; }
 
     /// <summary>
+    /// Name of data type.
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
     /// Describe data type.
     /// </summary>
     public required string Title { get; set; }

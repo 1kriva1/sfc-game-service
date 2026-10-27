@@ -20,10 +20,10 @@ public class GetAllGameDataQueryHandler(IMapper mapper, IGameDataService gameDat
 
         return new GetAllGameDataViewModel
         {
-            GameStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GameStatuses.Localize()),
-            GameTeamStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GameTeamStatuses.Localize()),
-            GamePlayerStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GamePlayerStatuses.Localize()),
-            GameTeamIndexes = _mapper.Map<IEnumerable<DataValueDto>>(model.GameTeamIndexes.Localize())
+            GameStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GameStatuses).Localize(),
+            GameTeamStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GameTeamStatuses).Localize(),
+            GamePlayerStatuses = _mapper.Map<IEnumerable<DataValueDto>>(model.GamePlayerStatuses).Localize(),
+            GameTeamIndexes = _mapper.Map<IEnumerable<DataValueDto>>(model.GameTeamIndexes).Localize()
         };
     }
 }
