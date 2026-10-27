@@ -7,5 +7,6 @@ option csharp_namespace = "SFC.Game.Contracts.Models.Game.Data";
 message DataValue
 {
     int32 id = 1;
-    string title = 2;
+    string name = 2;
+    string title = 3;
 }
